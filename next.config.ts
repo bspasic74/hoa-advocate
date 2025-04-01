@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  distDir: 'out', // Set the output directory to 'out'
 };
 
 export default nextConfig;

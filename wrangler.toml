@@ -1,0 +1,7 @@
+name = "hoa-advocate"
+compatibility_date = "2025-04-01"
+main = "dist/index.ts"
+
+[build]
+  command = "npm run build"
+  directory = "out"
