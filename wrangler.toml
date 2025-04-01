@@ -1,7 +1,6 @@
 name = "hoa-advocate"
-compatibility_date = "2025-04-01"
-main = "dist/index.ts"
+compatibility_date = "2024-03-29"
+compatibility_flags = [ "nodejs_compat" ]
+pages_build_output_dir = ".vercel/output/static"
 
-[build]
-  command = "npm run build"
-  directory = "out"
+NODE_VERSION = 22.14.0
