@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate",
+    "db:midrate:local": "wrangler d1 migrations apply hoa-db --local",
+    "db:midrate:prod": "wrangler d1 migrations apply hoa-db --remote"
   },
   "dependencies": {
     "dayjs": "^1.11.13",
