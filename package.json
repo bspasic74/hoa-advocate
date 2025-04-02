@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
-    "db:midrate:local": "wrangler d1 migrations apply hoa-db --local",
-    "db:midrate:prod": "wrangler d1 migrations apply hoa-db --remote"
+    "db:migrate:local": "wrangler d1 migrations apply hoa-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply hoa-db --remote"
   },
   "dependencies": {
     "dayjs": "^1.11.13",
