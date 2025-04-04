@@ -22,25 +22,49 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-white shadow-md h-screen flex flex-col p-4">
-      <h2 className="text-xl font-semibold text-gray-800 mb-6">HOA Advocate</h2>
-      <nav className="flex-1">
-        <ul className="space-y-2">
+    <div className="sidebar" style={{ 
+      backgroundColor: "white", 
+      boxShadow: "0 2px 10px rgba(0,0,0,0.1)", 
+      height: "100%", 
+      padding: "1rem" 
+    }}>
+      <div className="row">
+        <div className="columns small-12">
+          <h2 className="h4" style={{ 
+            fontWeight: "600", 
+            color: "#2c3e50", 
+            marginBottom: "1.5rem" 
+          }}>HOA Advocate</h2>
+        </div>
+      </div>
+      
+      <nav>
+        <ul className="vertical menu" style={{ listStyle: "none", margin: 0, padding: 0 }}>
           {menuItems.map(({ name, href, icon: Icon }) => (
-            <li key={href}>
+            <li key={href} style={{ marginBottom: "0.5rem" }}>
               <Link
                 href={href}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition ${
-                  pathname === href ? "bg-blue-100 text-blue-700" : "text-gray-700 hover:bg-gray-100"
-                }`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "0.75rem 1rem",
+                  borderRadius: "0.5rem",
+                  transition: "all 0.3s ease",
+                  backgroundColor: pathname === href ? "#e6f0ff" : "transparent",
+                  color: pathname === href ? "#106bd5" : "#666666"
+                }}
               >
-                <Icon className="w-5 h-5" />
+                <Icon style={{ 
+                  width: "1.25rem", 
+                  height: "1.25rem", 
+                  marginRight: "0.75rem" 
+                }} />
                 <span>{name}</span>
               </Link>
             </li>
           ))}
         </ul>
       </nav>
-    </aside>
+    </div>
   );
 }
