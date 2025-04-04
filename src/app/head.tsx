@@ -2,7 +2,7 @@ export default function Head() {
     return (
       <>
         <title>HOA Advocate</title>
-        <meta name="description" content="Platforma za Homeowner Association komunikaciju i upravljanje" />
+        <meta name="description" content="HOA Advocate - Your Community Management Solution" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         
         {/* Foundation CSS CDN */}

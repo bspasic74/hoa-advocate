@@ -5,6 +5,7 @@ import "foundation-sites/dist/css/foundation.min.css";
 import "@/styles/globals.css";
 import Navbar from "@/components/navbar"; 
 import Sidebar from "@/components/sidebar"; 
+import FoundationInit from "@/components/FoundationInit";
 
 // Font
 const inter = Inter({ subsets: ["latin"] });
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+      <FoundationInit />
         <div className="row expanded" style={{ height: "100vh", margin: 0 }}>
           {/* Sidebar */}
           <div className="columns small-12 medium-3 large-2" style={{ padding: 0 }}>
