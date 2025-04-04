@@ -1,12 +1,10 @@
-"use client";
-
 import type { Metadata } from "next";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import "foundation-sites/dist/css/foundation.min.css";
 import "@/styles/globals.css";
-import Navbar from "@/components/navbar";
-import Sidebar from "@/components/sidebar";
+import Navbar from "@/components/navbar"; 
+import Sidebar from "@/components/sidebar"; 
 
 // Font
 const inter = Inter({ subsets: ["latin"] });
@@ -16,15 +14,7 @@ export const metadata: Metadata = {
   description: "HOA Advocate - Your Community Management Solution",
 };
 
-export default function Layout({ children }: { children: ReactNode }) {
-  useEffect(() => {
-   
-    if (typeof window !== "undefined") {
-      // @ts-ignore
-      $(document).foundation();
-    }
-  }, []);
-
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
