@@ -30,7 +30,7 @@
     "dayjs": "^1.11.13",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
-    "drizzle-kit": "^0.19.1",
+    "drizzle-kit": "^0.30.6",
     "drizzle-orm": "^0.41.0",
     "html-to-draftjs": "^1.5.0",
     "next": "15.2.4",

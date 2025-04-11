@@ -1,6 +1,6 @@
 import path from "node:path";
 import * as fs from "node:fs";
-import {defineConfig} from "drizzle-kit";
+import {Config} from "drizzle-kit";
 
 function getLocalD1DB() {
     try {
@@ -18,19 +18,21 @@ function getLocalD1DB() {
     }
 }
 
-export default defineConfig({
-    dialect: 'sqlite',
+export default ({
     schema: './src/schema.ts',
     out: './drizzle',
     ...(process.env.NODE_ENV === 'production' ? {
-        driver: 'd1-http', dbCredentials: {
+        driver: 'd1-http', 
+        dialect: 'sqlite',
+        dbCredentials: {
             accountId: process.env.CLOUDFLARE_ACCOUNT_ID,
             databaseId: process.env.CLOUDFLARE_DATABASE_ID,
             token: process.env.CLOUDFLARE_D1_API_TOKEN
         }
     } : {
+        dialect:'sqlite',
         dbCredentials: {
             url: getLocalD1DB()
         }
     })
-})
+} satisfies Config);
