@@ -1,17 +1,6 @@
-import {integer, sqliteTable, text} from "drizzle-orm/sqlite-core";
-import dayjs from "dayjs";
-
-
-export const todosTable = sqliteTable('todos', {
-    id: integer("id").primaryKey({autoIncrement: true}),
-    title: text("title").notNull(),
-    completed: integer("completed", {
-        mode: 'boolean'
-    }),
-    createdAt: integer("createdAt", {
-        mode: 'timestamp'
-    }).$defaultFn(() => dayjs().toDate()),
-    updatedAt: integer("createdAt", {
-        mode: 'timestamp'
-    }).$defaultFn(() => dayjs().toDate()).$onUpdateFn(() => dayjs().toDate()),
-})
+export * from "./db/schema/users";
+export * from "./db/schema/addresses";
+export * from "./db/schema/communityMessages";
+export * from "./db/schema/events";
+export * from "./db/schema/proposals";
+export * from "./db/schema/votes";
