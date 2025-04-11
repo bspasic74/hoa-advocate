@@ -1,4 +1,5 @@
 import { CMEditorForm } from "@/components/cm-editor-form"
+export const runtime = "edge";
 
 export default function CommunityMessageEditorPage() {
   return (

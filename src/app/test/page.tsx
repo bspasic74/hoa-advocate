@@ -1,6 +1,7 @@
 
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+export const runtime = "edge";
 
 
 export default function Page() {

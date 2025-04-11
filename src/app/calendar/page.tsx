@@ -1,4 +1,5 @@
 import { CalendarComponent } from "@/components/calendar"
+export const runtime = "edge";
 
 export default function CalendarPage() {
   return (
