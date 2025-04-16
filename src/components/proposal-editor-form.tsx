@@ -1,8 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { EditorState } from "draft-js"
-import dynamic from "next/dynamic"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 
@@ -13,13 +11,8 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { useIsClient } from "@/hooks/use-is-client"
+import EditorComponent from "./wyswyg-editor/editor-component"
 
-// Dynamically import the Editor to avoid SSR issues
-const Editor = dynamic(() => import("react-draft-wysiwyg").then(mod => mod.Editor), {
-  ssr: false,
-})
-
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
 export function ProposalEditorForm() {
   const isClient = useIsClient()
@@ -27,20 +20,23 @@ export function ProposalEditorForm() {
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [type, setType] = useState("Notification")
   const [title, setTitle] = useState("")
-  const [editorState, setEditorState] = useState<EditorState | null>(null)
+  
 
   useEffect(() => {
     if (isClient) {
-      setEditorState(EditorState.createEmpty())
+      
     }
   }, [isClient])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Submit:", { date, type, title, editorState })
+    
+
+    //TODO
+
   }
 
-  if (!isClient || editorState === null) return null
+  if (!isClient) return null
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -76,15 +72,7 @@ export function ProposalEditorForm() {
       <div className="flex flex-col space-y-2">
         <Label>Body</Label>
         <div className="border border-gray-300 rounded-md p-2 bg-white">
-          <Editor
-            editorState={editorState}
-            onEditorStateChange={setEditorState}
-            wrapperClassName="demo-wrapper"
-            editorClassName="min-h-[150px] px-3 py-2"
-            toolbar={{
-              options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history'],
-            }}
-          />
+          <EditorComponent />
         </div>
       </div>
 

@@ -4,11 +4,13 @@ import { getCommunityMessage } from "@/db/db-actions-cm";
 import { CMEditorForm } from "@/components/cm-editor-form";
 
 interface EditPageProps {
-  params: { messageId: string };
+  params: Promise<{ messageId: string }>;
 }
 
 export default async function EditPage({ params }: EditPageProps) {
-  const messId = parseInt(params.messageId, 10);
+    // Await the promise to get the resolved value
+    const resolvedParams = await params;
+    const messId = parseInt(resolvedParams.messageId, 10);
   
   // Handle potential parsing errors
   if (isNaN(messId)) {

@@ -11,13 +11,15 @@ import { DeleteContentButton } from '@/components/DeleteContentButton';
 import Link from "next/link";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     messageId: string;
-  };
+  }>;
 }
 
 export default async function CommunityMessagePage({ params }: PageProps) {
-  const messageId = parseInt(params.messageId, 10);
+  // Await the promise to get the resolved value
+  const resolvedParams = await params;
+  const messageId = parseInt(resolvedParams.messageId, 10);
 
   if (isNaN(messageId)) {
     notFound();

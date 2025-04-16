@@ -6,9 +6,9 @@ import { notFound } from 'next/navigation'
 import { format } from "date-fns";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     eventId: string;
-  };
+  }>;
 }
 
 export default async function EventPage(props: PageProps) {
