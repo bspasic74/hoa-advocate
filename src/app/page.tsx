@@ -1,6 +1,7 @@
 'use client';
 
 import { SectionCards } from "@/components/section-cards";
+export const runtime = "edge";
 
 
 export default function DashboardPage() {
@@ -13,3 +14,19 @@ export default function DashboardPage() {
 
   );
 }
+
+/*
+
+Page
+
+  Last5 Messages
+    Message List Element x5
+    
+  Last5 Events 
+    Event List Element x5
+
+  Last5 Votes
+    Vote List Element x5
+
+
+*/

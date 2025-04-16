@@ -1,99 +1,147 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { EditorState } from "draft-js"
-import dynamic from "next/dynamic"
+import { useState, useRef } from "react"
+import EditorComponent from "@/components/wyswyg-editor/editor-component";
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
-
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import { useIsClient } from "@/hooks/use-is-client"
+import "@/components/wyswyg-editor/index.css";
+import { EditorState } from "lexical";
+import { redirect } from "next/navigation";
+import { createEvent } from "@/db/db-actions-events";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
-const Editor = dynamic(() => import("react-draft-wysiwyg").then(mod => mod.Editor), {
-  ssr: false,
-})
 
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
-
-interface EventFormProps {
-  initialDate?: Date
-}
-
-export function EventForm({ initialDate }: EventFormProps) {
-  const [date, setDate] = useState<Date | undefined>(initialDate || new Date())
+export function EventForm() {
+  const [eventDate, setEventDate] = useState<Date | undefined>(new Date())
   const [title, setTitle] = useState("")
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
-  //const isClient = useIsClient()
+  const [shortDescription, setShortDescription] = useState("")
+  const editorStateRef = useRef<EditorState | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Add logic to send data to backend
-    console.log("New Event Submitted:", {
-      date,
-      title,
-      body: editorState,
-    })
+  useEffect(() => {
+    
+    const dateParam = searchParams.get("date");
+
+    if (dateParam) {
+      const parsedDate = new Date(dateParam);
+      if (!isNaN(parsedDate.getTime())) {
+        setEventDate(parsedDate);
+      }
+    }
+  }, []);
+
+  const handleEventDateChange = (date: Date | undefined) => {
+    const utcDate = date ? new Date( Date.UTC(date.getFullYear(),date.getMonth(), date.getDate()) ) : undefined;
+    console.log("utcDate", utcDate);
+    setEventDate(utcDate); // Set the state with the UTC date
+
+    //setEventDate(date); 
   }
 
-  //if (!isClient) return null
+  const handleEditorStateChange = (editorState: EditorState) => {
+    editorStateRef.current = editorState;
+  }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+  
+      setErrorMessage(null);
+  
+      setIsSaving(true);
+
+      const response = await createEvent({
+        title,
+        description: editorStateRef.current ? JSON.stringify(editorStateRef.current.toJSON()) : null,
+        shortdescription: shortDescription,  
+        eventDate : eventDate || new Date(),     
+        adminId: "test"
+    });
+
+      setIsSaving(false);
+  
+      if (response.error) {
+        setErrorMessage(response.error);
+        return;
+      }
+  
+      redirect("/events/" + response.message?.id);
+    }
+  
 
   return (
     <div className="flex justify-center items-start py-10">
-    <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-6">
-      {/* Date Picker */}
-      <div className="flex flex-col space-y-2">
-        <Label>Date</Label>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-          </PopoverContent>
-        </Popover>
-      </div>
+      <form onSubmit={handleSubmit} className="w-full max-w-max space-y-6">
+        {errorMessage && (
+          <div className="text-red-500 text-sm mb-4">
+            {errorMessage}
+          </div>
+        )}
 
-      {/* Title */}
-      <div className="flex flex-col space-y-2">
-        <Label>Title</Label>
-        <Input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter event title"
-        />
-      </div>
+        {/* Date Picker */}
+        <div className="flex flex-col space-y-2">
+          <Label>Event Date</Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn("w-full justify-start text-left font-normal", !eventDate && "text-muted-foreground")}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {eventDate ? format(eventDate, "PPP") : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar mode="single" selected={eventDate} onSelect={handleEventDateChange} initialFocus />
+            </PopoverContent>
+          </Popover>
+        </div>
 
-      {/* Body */}
-      <div className="flex flex-col space-y-2">
-        <Label>Body</Label>
-        <div className="border border-gray-300 rounded-md p-2 bg-white">
-          <Editor
-            editorState={editorState}
-            onEditorStateChange={setEditorState}
-            wrapperClassName="demo-wrapper"
-            editorClassName="min-h-[150px] px-3 py-2"
-            toolbar={{
-              options: ["inline", "blockType", "fontSize", "list", "textAlign", "history"],
-            }}
+        {/* Title */}
+        <div className="flex flex-col space-y-2">
+          <Label>Title</Label>
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter event title"
           />
         </div>
-      </div>
 
-      <div className="flex justify-end">
-        <Button type="submit" className="bg-black text-white">Save Event</Button>
-      </div>
-    </form>
-    </div> 
+        {/* Short Description */}
+        <div className="flex flex-col space-y-2">
+          <Label>Short Description</Label>
+          <Input
+            value={shortDescription}
+            onChange={(e) => setShortDescription(e.target.value)}
+            placeholder="Enter a short description"
+          />
+        </div>
+
+        {/* Body */}
+        <div className="flex flex-col space-y-2">
+          <Label>Body</Label>
+          <div className="border border-gray-300 rounded-md p-2 bg-white">
+            <EditorComponent
+              className="border rounded-lg p-2"
+              onChangeCallback={handleEditorStateChange}
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <Button type="submit" disabled={isSaving} className="bg-black text-white">
+            {isSaving ? "Saving Event..." : "Save Event"}
+          </Button>
+        </div>
+      </form>
+    </div>
   )
 }

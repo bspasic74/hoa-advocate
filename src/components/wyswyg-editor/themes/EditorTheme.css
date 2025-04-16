@@ -1,0 +1,618 @@
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ *
+ */
+.WysEditor__ltr {
+  text-align: left;
+}
+.WysEditor__rtl {
+  text-align: right;
+}
+.WysEditor__paragraph {
+  margin: 0;
+  position: relative;
+}
+.WysEditor__quote {
+  margin: 0;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: rgb(101, 103, 107);
+  border-left-color: rgb(206, 208, 212);
+  border-left-width: 4px;
+  border-left-style: solid;
+  padding-left: 16px;
+}
+.WysEditor__h1 {
+  font-size: 24px;
+  color: rgb(5, 5, 5);
+  font-weight: 400;
+  margin: 0;
+}
+.WysEditor__h2 {
+  font-size: 15px;
+  color: rgb(101, 103, 107);
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+}
+.WysEditor__h3 {
+  font-size: 12px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.WysEditor__indent {
+  --lexical-indent-base-value: 40px;
+}
+.WysEditor__textBold {
+  font-weight: bold;
+}
+.WysEditor__paragraph mark {
+  background-color: unset;
+}
+.WysEditor__textHighlight {
+  background: rgba(255, 212, 0, 0.14);
+  border-bottom: 2px solid rgba(255, 212, 0, 0.3);
+}
+.WysEditor__textItalic {
+  font-style: italic;
+}
+.WysEditor__textUnderline {
+  text-decoration: underline;
+}
+
+.WysEditor__textStrikethrough {
+  text-decoration: line-through;
+}
+
+.WysEditor__textUnderlineStrikethrough {
+  text-decoration: underline line-through;
+}
+
+.WysEditor__tabNode {
+  position: relative;
+  text-decoration: none;
+}
+
+.WysEditor__tabNode.WysEditor__textUnderline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.15em;
+  border-bottom: 0.1em solid currentColor;
+}
+
+.WysEditor__tabNode.WysEditor__textStrikethrough::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0.69em;
+  border-top: 0.1em solid currentColor;
+}
+
+.WysEditor__tabNode.WysEditor__textUnderlineStrikethrough::before,
+.WysEditor__tabNode.WysEditor__textUnderlineStrikethrough::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.WysEditor__tabNode.WysEditor__textUnderlineStrikethrough::before {
+  top: 0.69em;
+  border-top: 0.1em solid currentColor;
+}
+
+.WysEditor__tabNode.WysEditor__textUnderlineStrikethrough::after {
+  bottom: 0.05em;
+  border-bottom: 0.1em solid currentColor;
+}
+
+.WysEditor__textSubscript {
+  font-size: 0.8em;
+  vertical-align: sub !important;
+}
+.WysEditor__textSuperscript {
+  font-size: 0.8em;
+  vertical-align: super;
+}
+.WysEditor__textCode {
+  background-color: rgb(240, 242, 245);
+  padding: 1px 0.25rem;
+  font-family: Menlo, Consolas, Monaco, monospace;
+  font-size: 94%;
+}
+.WysEditor__textLowercase {
+  text-transform: lowercase;
+}
+.WysEditor__textUppercase {
+  text-transform: uppercase;
+}
+.WysEditor__textCapitalize {
+  text-transform: capitalize;
+}
+.WysEditor__hashtag {
+  background-color: rgba(88, 144, 255, 0.15);
+  border-bottom: 1px solid rgba(88, 144, 255, 0.3);
+}
+.WysEditor__link {
+  color: rgb(33, 111, 219);
+  text-decoration: none;
+}
+.WysEditor__link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.WysEditor__blockCursor {
+  display: block;
+  pointer-events: none;
+  position: absolute;
+}
+.WysEditor__blockCursor:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  border-top: 1px solid black;
+  animation: CursorBlink 1.1s steps(2, start) infinite;
+}
+@keyframes CursorBlink {
+  to {
+    visibility: hidden;
+  }
+}
+.WysEditor__code {
+  background-color: rgb(240, 242, 245);
+  font-family: Menlo, Consolas, Monaco, monospace;
+  display: block;
+  padding: 8px 8px 8px 52px;
+  line-height: 1.53;
+  font-size: 13px;
+  margin: 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+  position: relative;
+  tab-size: 2;
+}
+.WysEditor__code:before {
+  content: attr(data-gutter);
+  position: absolute;
+  background-color: #eee;
+  left: 0;
+  top: 0;
+  border-right: 1px solid #ccc;
+  padding: 8px;
+  color: #777;
+  white-space: pre-wrap;
+  text-align: right;
+  min-width: 25px;
+}
+.WysEditor__tableScrollableWrapper {
+  overflow-x: auto;
+  margin: 0px 25px 30px 0px;
+}
+.WysEditor__tableScrollableWrapper > .WysEditor__table {
+  /* Remove the table's vertical margin and put it on the wrapper */
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.WysEditor__tableAlignmentCenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+.WysEditor__tableAlignmentRight {
+  margin-left: auto;
+}
+.WysEditor__table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  table-layout: fixed;
+  width: fit-content;
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+.WysEditor__tableScrollableWrapper.WysEditor__tableFrozenRow {
+  /* position:sticky needs overflow:clip or visible
+     https://github.com/w3c/csswg-drafts/issues/865#issuecomment-350585274 */
+  overflow-x: clip;
+}
+.WysEditor__tableFrozenRow tr:nth-of-type(1) > td {
+  overflow: clip;
+  background-color: #ffffff;
+  position: sticky;
+  z-index: 2;
+  top: 44px;
+}
+.WysEditor__tableFrozenRow tr:nth-of-type(1) > th {
+  overflow: clip;
+  background-color: #f2f3f5;
+  position: sticky;
+  z-index: 2;
+  top: 44px;
+}
+.WysEditor__tableFrozenRow tr:nth-of-type(1) > th:after,
+.WysEditor__tableFrozenRow tr:nth-of-type(1) > td:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 1px solid #bbb;
+}
+.WysEditor__tableFrozenColumn tr > td:first-child {
+  background-color: #ffffff;
+  position: sticky;
+  z-index: 2;
+  left: 0;
+}
+.WysEditor__tableFrozenColumn tr > th:first-child {
+  background-color: #f2f3f5;
+  position: sticky;
+  z-index: 2;
+  left: 0;
+}
+.WysEditor__tableFrozenColumn tr > :first-child::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 100%;
+  border-right: 1px solid #bbb;
+}
+.WysEditor__tableRowStriping tr:nth-child(even) {
+  background-color: #f2f5fb;
+}
+.WysEditor__tableSelection *::selection {
+  background-color: transparent;
+}
+.WysEditor__tableSelected {
+  outline: 2px solid rgb(60, 132, 244);
+}
+.WysEditor__tableCell {
+  border: 1px solid #bbb;
+  width: 75px;
+  vertical-align: top;
+  text-align: start;
+  padding: 6px 8px;
+  position: relative;
+  outline: none;
+  overflow: auto;
+}
+/*
+  A firefox workaround to allow scrolling of overflowing table cell
+  ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1904159
+*/
+.WysEditor__tableCell > * {
+  overflow: inherit;
+}
+.WysEditor__tableCellResizer {
+  position: absolute;
+  right: -4px;
+  height: 100%;
+  width: 8px;
+  cursor: ew-resize;
+  z-index: 10;
+  top: 0;
+}
+.WysEditor__tableCellHeader {
+  background-color: #f2f3f5;
+  text-align: start;
+}
+.WysEditor__tableCellSelected {
+  caret-color: transparent;
+}
+.WysEditor__tableCellSelected::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: highlight;
+  mix-blend-mode: multiply;
+  content: '';
+  pointer-events: none;
+}
+.WysEditor__tableAddColumns {
+  position: absolute;
+  background-color: #eee;
+  height: 100%;
+  animation: table-controls 0.2s ease;
+  border: 0;
+  cursor: pointer;
+}
+.WysEditor__tableAddColumns:after {
+  background-image: url(../images/icons/plus.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+}
+.WysEditor__tableAddColumns:hover,
+.WysEditor__tableAddRows:hover {
+  background-color: #c9dbf0;
+}
+.WysEditor__tableAddRows {
+  position: absolute;
+  width: calc(100% - 25px);
+  background-color: #eee;
+  animation: table-controls 0.2s ease;
+  border: 0;
+  cursor: pointer;
+}
+.WysEditor__tableAddRows:after {
+  background-image: url(../images/icons/plus.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+}
+@keyframes table-controls {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.WysEditor__tableCellResizeRuler {
+  display: block;
+  position: absolute;
+  width: 1px;
+  background-color: rgb(60, 132, 244);
+  height: 100%;
+  top: 0;
+}
+.WysEditor__tableCellActionButtonContainer {
+  display: block;
+  right: 5px;
+  top: 6px;
+  position: absolute;
+  z-index: 4;
+  width: 20px;
+  height: 20px;
+}
+.WysEditor__tableCellActionButton {
+  background-color: #eee;
+  display: block;
+  border: 0;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  color: #222;
+  cursor: pointer;
+}
+.WysEditor__tableCellActionButton:hover {
+  background-color: #ddd;
+}
+.WysEditor__characterLimit {
+  display: inline;
+  background-color: #ffbbbb !important;
+}
+.WysEditor__ol1 {
+  padding: 0;
+  margin: 0;
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+.WysEditor__ol2 {
+  padding: 0;
+  margin: 0;
+  list-style-type: upper-alpha;
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+.WysEditor__ol3 {
+  padding: 0;
+  margin: 0;
+  list-style-type: lower-alpha;
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+.WysEditor__ol4 {
+  padding: 0;
+  margin: 0;
+  list-style-type: upper-roman;
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+.WysEditor__ol5 {
+  padding: 0;
+  margin: 0;
+  list-style-type: lower-roman;
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+.WysEditor__ul {
+  padding: 0;
+  margin: 0;
+  list-style-position: outside;
+  list-style-type: disc;
+}
+.WysEditor__listItem {
+  margin: 0 32px;
+}
+.WysEditor__listItem::marker {
+  color: var(--listitem-marker-color);
+  background-color: var(--listitem-marker-background-color);
+  font-family: var(--listitem-marker-font-family);
+  font-size: var(--listitem-marker-font-size);
+}
+.WysEditor__listItemChecked,
+.WysEditor__listItemUnchecked {
+  position: relative;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding-left: 24px;
+  padding-right: 24px;
+  list-style-type: none;
+  outline: none;
+}
+.WysEditor__listItemChecked {
+  text-decoration: line-through;
+}
+.WysEditor__listItemUnchecked:before,
+.WysEditor__listItemChecked:before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 0;
+  cursor: pointer;
+  display: block;
+  background-size: cover;
+  position: absolute;
+}
+.WysEditor__listItemUnchecked[dir='rtl']:before,
+.WysEditor__listItemChecked[dir='rtl']:before {
+  left: auto;
+  right: 0;
+}
+.WysEditor__listItemUnchecked:focus:before,
+.WysEditor__listItemChecked:focus:before {
+  box-shadow: 0 0 0 2px #a6cdfe;
+  border-radius: 2px;
+}
+.WysEditor__listItemUnchecked:before {
+  border: 1px solid #999;
+  border-radius: 2px;
+}
+.WysEditor__listItemChecked:before {
+  border: 1px solid rgb(61, 135, 245);
+  border-radius: 2px;
+  background-color: #3d87f5;
+  background-repeat: no-repeat;
+}
+.WysEditor__listItemChecked:after {
+  content: '';
+  cursor: pointer;
+  border-color: #fff;
+  border-style: solid;
+  position: absolute;
+  display: block;
+  top: 6px;
+  width: 3px;
+  left: 7px;
+  right: 7px;
+  height: 6px;
+  transform: rotate(45deg);
+  border-width: 0 2px 2px 0;
+}
+.WysEditor__nestedListItem {
+  list-style-type: none;
+}
+.WysEditor__nestedListItem:before,
+.WysEditor__nestedListItem:after {
+  display: none;
+}
+.WysEditor__tokenComment {
+  color: slategray;
+}
+.WysEditor__tokenPunctuation {
+  color: #999;
+}
+.WysEditor__tokenProperty {
+  color: #905;
+}
+.WysEditor__tokenSelector {
+  color: #690;
+}
+.WysEditor__tokenOperator {
+  color: #9a6e3a;
+}
+.WysEditor__tokenAttr {
+  color: #07a;
+}
+.WysEditor__tokenVariable {
+  color: #e90;
+}
+.WysEditor__tokenFunction {
+  color: #dd4a68;
+}
+.WysEditor__mark {
+  background: rgba(255, 212, 0, 0.14);
+  border-bottom: 2px solid rgba(255, 212, 0, 0.3);
+  padding-bottom: 2px;
+}
+.WysEditor__markOverlap {
+  background: rgba(255, 212, 0, 0.3);
+  border-bottom: 2px solid rgba(255, 212, 0, 0.7);
+}
+.WysEditor__mark.selected {
+  background: rgba(255, 212, 0, 0.5);
+  border-bottom: 2px solid rgba(255, 212, 0, 1);
+}
+.WysEditor__markOverlap.selected {
+  background: rgba(255, 212, 0, 0.7);
+  border-bottom: 2px solid rgba(255, 212, 0, 0.7);
+}
+.WysEditor__embedBlock {
+  user-select: none;
+}
+.WysEditor__embedBlockFocus {
+  outline: 2px solid rgb(60, 132, 244);
+}
+.WysEditor__layoutContainer {
+  display: grid;
+  gap: 10px;
+  margin: 10px 0;
+}
+.WysEditor__layoutItem {
+  border: 1px dashed #ddd;
+  padding: 8px 16px;
+  min-width: 0;
+  max-width: 100%;
+}
+.WysEditor__autocomplete {
+  color: #ccc;
+}
+.WysEditor__hr {
+  padding: 2px 2px;
+  border: none;
+  margin: 1em 0;
+  cursor: pointer;
+}
+.WysEditor__hr:after {
+  content: '';
+  display: block;
+  height: 2px;
+  background-color: #ccc;
+  line-height: 2px;
+}
+.WysEditor__hr.WysEditor__hrSelected {
+  outline: 2px solid rgb(60, 132, 244);
+  user-select: none;
+}
+
+.WysEditor__specialText {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+.read-only-editor .WysEditor__layoutItem {
+  border: none !important; /* Remove the dotted border in read-only mode */
+}

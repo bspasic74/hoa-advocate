@@ -10,7 +10,7 @@ import { ActivePageProvider } from '@/context/ActivePageContext';
 export const metadata: Metadata = {
   title: 'HOA Advocate',
   description: 'Community portal for homeowners and admins',
-  viewport: 'width=device-width, initial-scale=1',
+
 };
 
 
@@ -25,7 +25,7 @@ export default function RootLayout({
       <div className="flex flex-1">
         <SidebarProvider>
         <ActivePageProvider>
-            <AppSidebar variant="inset" />
+            <AppSidebar variant="inset" className='bg-white'/>
             <SidebarInset className='mt-2.5 ml-4 mr-4 flex-1 flex flex-col'>
               <SiteHeader />
               <div className="flex-1 p-5">

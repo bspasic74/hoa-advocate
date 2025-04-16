@@ -3,6 +3,7 @@ import * as fs from "node:fs";
 import {Config} from "drizzle-kit";
 
 function getLocalD1DB() {
+    console.log("Getting local D1 DB path")
     try {
         const basePath = path.resolve(".wrangler")
         const dbFile = fs.readdirSync(basePath, {encoding: "utf-8", recursive: true}).find((f) => f.endsWith('.sqlite'))

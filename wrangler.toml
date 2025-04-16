@@ -9,5 +9,5 @@ NODE_VERSION = "18.18.0"
 [[d1_databases]]
 binding = "DB"
 database_name = "hoa-db"
-database_id = "e3b3ba44-7cd3-404e-baa0-32cbc7c049e8"
+database_id = "b8ebb0cb-c1c2-4f89-a75a-5890296ff7b0"
 migrations_dir = 'drizzle'
