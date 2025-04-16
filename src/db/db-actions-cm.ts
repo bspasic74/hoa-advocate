@@ -1,6 +1,6 @@
 'use server';
 
-import { eq, InferSelectModel } from 'drizzle-orm';
+import { desc, eq, InferSelectModel } from 'drizzle-orm';
 import { db } from '../db';
 import { users } from './schema/users';
 import { communityMessages, todos } from '@/schema';
@@ -166,6 +166,13 @@ export async function updateCommunityMessage(
     console.error("Error updating community message:", error);
     return { success: false, error: "Failed to update community message" };
   }
+}
+
+export async function getCommunityMessages(count?: number) {
+  console.log("Fetching all community messages");
+  // Fetch all community messages from the database
+  const messages = await db.select().from(communityMessages).orderBy(desc(communityMessages.createdAt)).limit(count ?? 10);
+  return messages;
 }
 
 /*export async function getCommunityMessage(messageId: number) {
