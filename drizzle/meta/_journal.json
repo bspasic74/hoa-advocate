@@ -29,6 +29,20 @@
       "when": 1744651637987,
       "tag": "0003_petite_stick",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1745428200075,
+      "tag": "0004_colossal_siren",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1745430663132,
+      "tag": "0005_living_groot",
+      "breakpoints": true
     }
   ]
 }

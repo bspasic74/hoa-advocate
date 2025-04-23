@@ -5,8 +5,14 @@ import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button" 
 import { useActivePage } from "@/context/ActivePageContext"
+import { useSession, signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { Session } from "next-auth";
+import { auth } from "@/auth";
 
 export function SiteHeader() {
+  const { data: session } = useSession();
+
   const { activePage } = useActivePage()
   return (
     <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
@@ -23,7 +29,7 @@ export function SiteHeader() {
 
         {/* Login and Register Buttons */}
         <div className="flex items-center gap-2">
-        <Link href="/login">
+        {!session && <><Link href="/login">
           <Button className="bg-black text-white rounded-md px-4 py-1 text-sm">
             Login
           </Button>
@@ -32,7 +38,8 @@ export function SiteHeader() {
           <Button className="bg-black text-white rounded-md px-4 py-1 text-sm">
             Register
           </Button>
-        </Link>
+        </Link></>}
+        {session && <Button onClick={() => signOut()} className="bg-black text-white rounded-md px-4 py-1 text-sm">Logout</Button>}
         </div>
       </div>
     </header>

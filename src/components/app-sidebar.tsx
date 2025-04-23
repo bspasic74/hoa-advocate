@@ -31,8 +31,121 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { useSession } from "next-auth/react"
 
 const data = {
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+  navMain: [
+    {
+      title: "Dashboard",
+      url: "/",
+      icon: LayoutDashboardIcon,
+    },
+    {
+      title: "Community Messages",
+      url: "/community-messages",
+      icon: MessagesSquare,
+    },
+    {
+      title: "Events",
+      url: "/calendar",
+      icon: Calendar,
+    },
+    {
+      title: "Proposals & Voting",
+      url: "/proposals",
+      icon: Vote,
+    },
+  ],
+  navClouds: [
+    {
+      title: "Capture",
+      icon: CameraIcon,
+      isActive: true,
+      url: "#",
+      items: [
+        {
+          title: "Active Proposals",
+          url: "#",
+        },
+        {
+          title: "Archived",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Proposal",
+      icon: FileTextIcon,
+      url: "#",
+      items: [
+        {
+          title: "Active Proposals",
+          url: "#",
+        },
+        {
+          title: "Archived",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Prompts",
+      icon: FileCodeIcon,
+      url: "#",
+      items: [
+        {
+          title: "Active Proposals",
+          url: "#",
+        },
+        {
+          title: "Archived",
+          url: "#",
+        },
+      ],
+    },
+  ],
+  navSecondary: [
+    {
+      title: "Settings",
+      url: "#",
+      icon: SettingsIcon,
+    },
+    {
+      title: "Get Help",
+      url: "#",
+      icon: HelpCircleIcon,
+    },
+    {
+      title: "Search",
+      url: "#",
+      icon: SearchIcon,
+    },
+  ],
+  documents: [
+    {
+      name: "Data Library",
+      url: "#",
+      icon: DatabaseIcon,
+    },
+    {
+      name: "Reports",
+      url: "#",
+      icon: ClipboardListIcon,
+    },
+    {
+      name: "Word Assistant",
+      url: "#",
+      icon: FileIcon,
+    },
+  ],
+}
+
+const adminData = {
   user: {
     name: "shadcn",
     email: "m@example.com",
@@ -150,6 +263,9 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const session = useSession();
+
   return (
     <Sidebar   collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -168,7 +284,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={!session?.data?.user ? [] : session.data?.user.isAdmin ? adminData.navMain : data.navMain} />
       </SidebarContent>
       <SidebarFooter>
       </SidebarFooter>

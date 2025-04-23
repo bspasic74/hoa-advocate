@@ -12,6 +12,7 @@
     "db:migrate:prod": "wrangler d1 migrations apply hoa-db --remote"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.9.0",
     "@cloudflare/workers-types": "^4.20250413.0",
     "@fullcalendar/core": "^6.1.17",
     "@fullcalendar/daygrid": "^6.1.17",
@@ -30,6 +31,7 @@
     "@radix-ui/react-tooltip": "^1.1.8",
     "@types/lodash": "^4.17.16",
     "@types/lodash-es": "^4.17.12",
+    "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",

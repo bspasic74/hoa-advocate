@@ -13,19 +13,37 @@ import { cn } from "@/lib/utils"
 import "@/components/wyswyg-editor/index.css";
 import { EditorState } from "lexical";
 import { redirect } from "next/navigation";
-import { createEvent } from "@/db/db-actions-events";
+import { createEvent, updateEvent } from "@/db/db-actions-events";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { events } from "@/schema";
+
+interface EventFormProps {
+  initialData?: {
+    id: number;
+    eventDate?: Date;
+    title: string;
+    shortdescription: string;
+    description: string | null;
+  };
+  onSubmit?: (data: any) => Promise<void>;
+}
 
 
-export function EventForm() {
-  const [eventDate, setEventDate] = useState<Date | undefined>(new Date())
-  const [title, setTitle] = useState("")
-  const [shortDescription, setShortDescription] = useState("")
+export function EventForm({ initialData, onSubmit }: EventFormProps) {
+  const [eventDate, setEventDate] = useState<Date | undefined>(initialData?.eventDate ? new Date(initialData.eventDate) : new Date());
+  const [title, setTitle] = useState(initialData?.title || "")
+  const [shortDescription, setShortDescription] = useState(initialData?.shortdescription || "")
   const editorStateRef = useRef<EditorState | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const handleEditorStateChange = (editorState: EditorState) => {
+    editorStateRef.current = editorState;
+  }
 
   useEffect(() => {
     
@@ -47,35 +65,47 @@ export function EventForm() {
     //setEventDate(date); 
   }
 
-  const handleEditorStateChange = (editorState: EditorState) => {
-    editorStateRef.current = editorState;
-  }
-
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
   
       setErrorMessage(null);
-  
       setIsSaving(true);
-
-      const response = await createEvent({
+  
+      const payload = {
+        eventDate: eventDate ? new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate()) : new Date(),
         title,
+        shortdescription: shortDescription,
         description: editorStateRef.current ? JSON.stringify(editorStateRef.current.toJSON()) : null,
-        shortdescription: shortDescription,  
-        eventDate : eventDate || new Date(),     
-        adminId: "test"
-    });
-
-      setIsSaving(false);
+        adminId: "test",
+      };
   
-      if (response.error) {
-        setErrorMessage(response.error);
-        return;
+      let response;
+  
+      try {
+        if (initialData?.id) {
+          response = await updateEvent(initialData.id, payload);
+        } else {
+          response = await createEvent(payload);
+        }
+  
+        setIsSaving(false);
+  
+        if (response.error) {
+          setErrorMessage(response.error);
+          return;
+        }
+  
+        if (onSubmit) {
+          await onSubmit(response);
+        } else {
+          router.push(`/events/${response.message?.id}`);
+        }
+      } catch (error) {
+        setIsSaving(false);
+        setErrorMessage("An error occurred while saving");
+        console.error(error);
       }
-  
-      redirect("/events/" + response.message?.id);
-    }
-  
+    };
 
   return (
     <div className="flex justify-center items-start py-10">
@@ -131,6 +161,7 @@ export function EventForm() {
           <div className="border border-gray-300 rounded-md p-2 bg-white">
             <EditorComponent
               className="border rounded-lg p-2"
+              content={initialData?.description ? initialData.description : undefined}
               onChangeCallback={handleEditorStateChange}
             />
           </div>

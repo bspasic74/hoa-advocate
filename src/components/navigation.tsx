@@ -4,13 +4,16 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path;
-
+  const session = useSession();
+  const isAdmin = session.data?.user?.isAdmin || false; // Adjust this based on your user object structure  
+  
   return (
     <nav className="bg-white shadow z-10 sticky top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -17,6 +17,7 @@ import {
     Users,
   } from 'lucide-react';
 import MessagesList from "./messages-list";
+import EventsList from "./events-list";
 
 export function SectionCards() {
   return (
@@ -28,9 +29,7 @@ export function SectionCards() {
       </CardHeader>
       <CardContent className="grid gap-4">
         <div>
-          <p className="text-sm text-muted-foreground">
-            Next HOA meeting on April 12th at 6PM.
-          </p>
+          <EventsList/> 
         </div>
       </CardContent>
       <CardFooter>
