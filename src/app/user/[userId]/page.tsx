@@ -6,13 +6,14 @@ import { notFound } from 'next/navigation'
 import UserInfoCard from '@/components/user-info-card'
 
 interface PageProps {
-  params: {
+  params: Promise <{
     userId: string;
-  };
+  }>;
 }
 
 export default async function UserPage({ params }: PageProps) {
-  const user = await getUserById(params.userId)
+  const { userId } = await params;
+  const user = await getUserById(userId);
 
   if (!user) {
     notFound()
