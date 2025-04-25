@@ -18,6 +18,7 @@ import {
   } from 'lucide-react';
 import MessagesList from "./messages-list";
 import EventsList from "./events-list";
+import Link from "next/link";
 
 export function SectionCards() {
   return (
@@ -32,9 +33,11 @@ export function SectionCards() {
           <EventsList/> 
         </div>
       </CardContent>
+      <Link href="/calendar" className="w-full">
       <CardFooter>
         <Button className="bg-black text-white rounded-md mx-auto">Read more</Button>
       </CardFooter>
+      </Link>
     </Card>
   
     <Card className="shadow-md rounded-xl bg-gradient-to-t from-primary/5 to-card dark:bg-card border-[#e9e9e9]">
@@ -47,6 +50,11 @@ export function SectionCards() {
           <MessagesList/>
         </div>
       </CardContent>
+      <Link href="/community-messages" className="w-full">
+      <CardFooter>
+        <Button className="bg-black text-white rounded-md mx-auto">Read more</Button>
+      </CardFooter>
+      </Link>
     </Card>
   
     <Card className="shadow-md rounded-xl bg-gradient-to-t from-primary/5 to-card dark:bg-card border-[#e9e9e9]">

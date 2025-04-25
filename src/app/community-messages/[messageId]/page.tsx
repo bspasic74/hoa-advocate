@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 import { deleteCommunityMessage } from "@/db/db-actions-cm";
 import { DeleteContentButton } from '@/components/DeleteContentButton';
 import Link from "next/link";
+import { auth } from '@/auth';
 
 interface PageProps {
   params: Promise<{
@@ -19,6 +20,7 @@ interface PageProps {
 export default async function CommunityMessagePage({ params }: PageProps) {
   // Await the promise to get the resolved value
   const resolvedParams = await params;
+  const session = await auth();
   const messageId = parseInt(resolvedParams.messageId, 10);
 
   if (isNaN(messageId)) {
@@ -37,7 +39,7 @@ export default async function CommunityMessagePage({ params }: PageProps) {
     // option: revalidatePath("/community-messages");
     redirect("/community-messages"); 
   }
-
+  
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{message.title}</h1>
@@ -50,7 +52,7 @@ export default async function CommunityMessagePage({ params }: PageProps) {
           <p className="text-gray-400 italic">{message.shortdescription}</p>
         )}
       </div>
-
+      {session?.user.isAdmin && (
       <div className="flex gap-4">
         <Link href={`/community-messages/${messageId}/edit`}>
           <button className="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
@@ -60,6 +62,7 @@ export default async function CommunityMessagePage({ params }: PageProps) {
           <DeleteContentButton onDelete={handleDelete} />
         </form>
       </div>
+      )};
     </div>
   );
 }

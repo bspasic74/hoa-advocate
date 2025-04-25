@@ -39,7 +39,7 @@ export function SiteHeader() {
             Register
           </Button>
         </Link></>}
-        {session && <Button onClick={() => signOut()} className="bg-black text-white rounded-md px-4 py-1 text-sm">Logout</Button>}
+        {session && <Button onClick={() => signOut({ callbackUrl: '/' })} className="bg-black text-white rounded-md px-4 py-1 text-sm">Logout</Button>}
         </div>
       </div>
     </header>

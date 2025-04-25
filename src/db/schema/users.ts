@@ -1,4 +1,6 @@
+import { relations } from "drizzle-orm";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { addresses } from "./addresses";
 
 export const users = sqliteTable("users", {
   id: text("id")
@@ -16,3 +18,9 @@ export const users = sqliteTable("users", {
   isAdmin: integer("is_admin", { mode: "boolean" }).default(false),
   createdAt: integer("created_at", { mode: "timestamp" }),
 });
+
+export const usersRelations = relations(
+  users, ({ one }) => ({
+    address: one(addresses, { fields: [users.addressId], references: [addresses.id] }),
+  })
+);

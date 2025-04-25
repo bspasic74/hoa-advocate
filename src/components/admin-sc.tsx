@@ -33,10 +33,13 @@ export function AdminPanel() {
             Add and adminisrate events
           </p>
         </div>
-      </CardContent>
+      </CardContent>      
       <CardFooter>
-        <Button className="bg-black text-white rounded-md mx-auto">Events</Button>
+        <Link href="/calendar" className="w-full">
+          <Button className="bg-black text-white rounded-md mx-auto">Events</Button>
+        </Link>
       </CardFooter>
+
     </Card>
   
     <Card className="shadow-md rounded-xl bg-gradient-to-t from-primary/5 to-card dark:bg-card border-[#e9e9e9]">
@@ -52,7 +55,9 @@ export function AdminPanel() {
         </div>
       </CardContent>
       <CardFooter>
+      <Link href="/user">
         <Button className="bg-black text-white rounded-md mx-auto">Users</Button>
+      </Link>
       </CardFooter>
     </Card>
   

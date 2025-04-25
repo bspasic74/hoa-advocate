@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { DeleteContentButton } from '@/components/DeleteContentButton';
 import { redirect } from "next/navigation";
+import { auth } from '@/auth';
 
 interface PageProps {
   params: Promise<{
@@ -16,6 +17,7 @@ interface PageProps {
 
 export default async function EventPage({ params }: PageProps) {
   const resolvedParams = await params;
+  const session = await auth();
   const eventId = parseInt(resolvedParams.eventId, 10);
 
   if (isNaN(eventId )) {
@@ -46,7 +48,7 @@ export default async function EventPage({ params }: PageProps) {
         )}
       </div>
     </div>
-
+    {session?.user.isAdmin ? (
     <div className="flex gap-4">
     <Link href={`/events/${eventId}/edit`}>
       <button className="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
@@ -56,6 +58,7 @@ export default async function EventPage({ params }: PageProps) {
       <DeleteContentButton onDelete={handleDelete} />
     </form>
     </div>
+    ) : null};
     </>
   );
 }

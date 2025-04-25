@@ -1,5 +1,6 @@
 export const runtime = "edge";
 
+import { auth } from '@/auth';
 import Link from "next/link";
 import { getCommunityMessages } from '@/db/db-actions-cm';
 import {

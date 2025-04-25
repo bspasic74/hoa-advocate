@@ -1,16 +1,17 @@
 'use client'
 
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import { useRouter } from 'next/navigation'
-import { Card } from "@/components/ui/card"
-import { useCallback } from 'react'
-import { getAllEvents } from '@/db/db-actions-events'
-import { title } from 'process'
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { useRouter } from 'next/navigation';
+import { Card } from "@/components/ui/card";
+import { useCallback } from 'react';
+import { getAllEvents } from '@/db/db-actions-events';
+import { title } from 'process';
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import Link from 'next/link';
+import { useSession } from "next-auth/react";
 
 interface CalendarEvent {
   id: string;
@@ -32,16 +33,22 @@ interface Props {
 
 
 export function CalendarComponent({initialEvents} : Props) {
-  const [events, setEvents] = useState<CalendarEvent[]>([])
-  const router = useRouter()
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const router = useRouter();
+  const { data: session } = useSession();
 
   useEffect(() => {
     console.log("initialEvents", initialEvents);
+    initialEvents.forEach(event => {
+      console.log("Original eventDate from DB:", event.eventDate); // ← OVO DODAJ
+    });
     const formatted: CalendarEvent[] = initialEvents.map(event => ({
       id: event.id.toString(),
       title: event.title,
-      start: new Date( event.eventDate.getUTCFullYear(), event.eventDate.getUTCMonth(), event.eventDate.getUTCDate() ).toISOString(),
+      //start: new Date( event.eventDate.getUTCFullYear(), event.eventDate.getUTCMonth(), event.eventDate.getUTCDate() ).toISOString(),
+      start: event.eventDate.toLocaleDateString('sv-SE'), // format: YYYY-MM-DD
       description: event.shortdescription,
+      allDay: true,
     }))
     setEvents(formatted)
   }, [initialEvents])
@@ -53,6 +60,9 @@ export function CalendarComponent({initialEvents} : Props) {
   }, [router])
 
   const handleDateClick = useCallback((info: any) => {
+    if(!session?.user?.isAdmin) {
+      return;
+    }
     const clickedDate = info.dateStr // format: YYYY-MM-DD
     router.push(`/events/new?date=${clickedDate}`)
   }, [router])
@@ -81,9 +91,9 @@ export function CalendarComponent({initialEvents} : Props) {
 function renderEventContent(eventInfo: any) {
   return (
     <div  >
-    <div className="text-sm">
+    <div className="text-sm text-wrap">
       <b>{eventInfo.event.title}</b>
-      <div>{eventInfo.event.extendedProps.description}</div>
+    {/*  <div>{eventInfo.event.extendedProps.description}</div> */}
     </div>
     </div>
   )

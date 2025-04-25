@@ -4,7 +4,8 @@ import { desc, eq, InferSelectModel } from 'drizzle-orm';
 import { db } from '../db';
 import { users } from './schema/users';
 import { communityMessages, todos } from '@/schema';
-import { revalidatePath } from 'next/cache'
+import { revalidatePath } from 'next/cache';
+import { auth } from '@/auth';
 
 export async function getAllUsers() {
   return await db.select().from(todos).limit(10);
@@ -38,6 +39,18 @@ export async function createCommunityMessage({
   error?: string 
 }> {
   try {
+    const session = await auth();
+    if (!session || !session.user) {
+      console.error("User not authenticated");
+      return { success: false, error: "User not authenticated" };
+    }
+    
+    if (!session.user.isAdmin) {
+      return { success: false, error: "User is not an admin" };
+    }
+
+    const userId = session.user.id!;
+    
     const newMessage = await db.insert(communityMessages)
     .values({
       title,
