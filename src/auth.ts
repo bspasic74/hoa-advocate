@@ -16,6 +16,7 @@ declare module "next-auth" {
     user: {
       /** The user's postal address. */
       isAdmin: boolean,
+      addressId: string,
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
@@ -82,6 +83,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.name = existingUser.firstName + " " + existingUser.lastName;
       session.user.email = user.email;
       session.user.isAdmin = existingUser.isAdmin ?? false;
+      session.user.addressId = existingUser.addressId!;
       return session;
     },
   },

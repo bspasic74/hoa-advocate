@@ -1,28 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-
-interface Props {
-  onDelete: () => void;
-}
-
-export function DeleteContentButton({ onDelete }: Props) {
-  const [submitting, setSubmitting] = useState(false);
-
+export function DeleteContentButton() {
   return (
     <button
-      type="button"
-      className="bg-red-600 text-white px-4 py-2 rounded"
-      onClick={async () => {
-        const confirmed = confirm("Are you sure you want to delete this content?");
-        if (!confirmed) return;
-
-        setSubmitting(true);
-        await onDelete();
+      type="submit"
+      className="bg-red-500 text-white px-4 py-2 rounded"
+      onClick={() => {
+        if (!confirm("Are you sure you want to delete this?")) {
+    
+          throw new Error("Canceled"); 
+        }
       }}
-      disabled={submitting}
     >
-      {submitting ? 'Deleting...' : 'Delete'}
+      Delete
     </button>
   );
 }

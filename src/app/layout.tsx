@@ -7,6 +7,7 @@ import { SiteHeader } from '@/components/site-header';
 import './globals.css';
 import { ActivePageProvider } from '@/context/ActivePageContext';
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'HOA Advocate',
@@ -33,6 +34,7 @@ export default async function RootLayout({
                 <SiteHeader />
                 <div className="flex-1 p-5">
                   {children}
+                  <Toaster position="top-center" reverseOrder={false} />
                 </div>
                 {/* Footer */}
                 <footer className="bg-white border-t text-sm text-gray-500 text-center py-4">

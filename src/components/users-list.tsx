@@ -13,7 +13,10 @@ const UsersList = () => {
     useEffect(() => {
         const fetchUsers = async () => {
                 const data = await getAllUsers();
-                setUsers(data); 
+                setUsers(data.map(user => ({
+                    id: user.id,
+                    name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : null,
+                }))); 
         };
         fetchUsers();
     }, []);

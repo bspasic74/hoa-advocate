@@ -41,24 +41,25 @@ export default async function EventPage({ params }: PageProps) {
       <h1 className="text-3xl font-bold mb-4">{message.title}</h1>
       <p className="text-gray-500 text-sm mb-2">Event Date: {format(new Date(message.eventDate), "PPP")}</p>
       <div className="prose prose-lg">
-        {message.description ? (
+        {message.description ? (<>
           <ReadOnlyEditor content={message.description} />
+          </>
         ) : (
           <p className="text-gray-400 italic">{message.shortdescription}</p>
         )}
       </div>
     </div>
-    {session?.user.isAdmin ? (
+    {session?.user.isAdmin && (
     <div className="flex gap-4">
     <Link href={`/events/${eventId}/edit`}>
       <button className="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
     </Link>
 
     <form action={handleDelete}>
-      <DeleteContentButton onDelete={handleDelete} />
+      <DeleteContentButton/>
     </form>
     </div>
-    ) : null};
+    )}
     </>
   );
 }

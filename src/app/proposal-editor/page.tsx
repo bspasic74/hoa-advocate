@@ -1,5 +1,7 @@
-import { ProposalEditorForm } from "@/components/proposal-editor-form"
 export const runtime = "edge";
+
+import { ProposalEditorForm } from "@/components/proposal-editor-form"
+
 
 export default function ProposalEditorPage() {
   return (

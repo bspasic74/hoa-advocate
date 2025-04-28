@@ -1,5 +1,8 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { users } from "./users";
+import { proposals } from "./proposals";
+import { addresses } from "./addresses";
 
 export const votes = sqliteTable("votes", {
   id: integer("id") .primaryKey({autoIncrement: true}),
@@ -12,3 +15,11 @@ export const votes = sqliteTable("votes", {
     modifiedAt: integer("modified_at", {mode: "timestamp"})
       .$onUpdate(() => new Date()).$type<Date>(),
 });
+
+export const votesRelations = relations(
+  votes, ({ one, many}) => ({
+    user: one(users, { fields: [votes.userId], references: [users.id] }),
+    proposal: one(proposals, { fields: [votes.proposalId], references: [proposals.id] }),
+    address: one(addresses, { fields: [votes.addressId], references: [addresses.id] }),
+  })
+);

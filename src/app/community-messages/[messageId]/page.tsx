@@ -59,10 +59,10 @@ export default async function CommunityMessagePage({ params }: PageProps) {
         </Link>
 
         <form action={handleDelete}>
-          <DeleteContentButton onDelete={handleDelete} />
+          <DeleteContentButton />
         </form>
       </div>
-      )};
+      )}
     </div>
   );
 }
