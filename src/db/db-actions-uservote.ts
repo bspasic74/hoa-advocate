@@ -1,4 +1,4 @@
-import { db } from "@/db"; // ili odakle već importujes `db`
+import { db } from "@/db";
 import { users } from "@/db/schema/users";
 import { addresses } from "@/db/schema/addresses";
 import { votes } from "@/db/schema/votes";
@@ -22,7 +22,7 @@ export async function getUsersWithAddressAndVote(proposalId: string) {
   .from(users)
   .leftJoin(addresses, eq(users.addressId, addresses.id));
 
-  // Sada imamo listu usera + adresu
+ 
 
   const results = await Promise.all(
     allUsers.map(async (user) => {
@@ -35,10 +35,19 @@ export async function getUsersWithAddressAndVote(proposalId: string) {
 
       return {
         ...user,
-        voteValue: vote ? vote.voteValue : null, // Ako nije glasao, voteValue = null
+        voteValue: vote ? vote.voteValue : null, 
       };
     })
   );
 
   return results;
+}
+
+export async function getUserVoteForProposal(userId: string, proposalId: number) {
+  return await db.query.votes.findFirst({
+    where: and(
+      eq(votes.userId, userId),
+      eq(votes.proposalId, proposalId.toString())
+    ),
+  });
 }

@@ -15,7 +15,8 @@ import { auth } from '@/auth';
 import toast from 'react-hot-toast'; 
 import VoteForm from '@/components/vote-form';
 import VoteResults from '@/components/VoteResults';
-import { getUsersWithAddressAndVote, getUserVoteForProposal } from '@/db/db-actions-uservote'; 
+import { getUsersWithAddressAndVote } from '@/db/db-actions-uservote';
+import { getUserVoteForProposal } from '@/db/db-actions-uservote';  
 import {
   Table,
   TableBody,
