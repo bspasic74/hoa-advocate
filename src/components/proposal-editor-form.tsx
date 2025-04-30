@@ -115,7 +115,7 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="form-container max-w-max space-y-6">
-        {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+        {errorMessage && <div className="text-red-500 text-sm mb-4">{errorMessage}</div>}
 
         <FormField
           control={form.control}
@@ -178,7 +178,7 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder="Enter a title"  {...field} className="input" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -192,7 +192,7 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
             <FormItem>
               <FormLabel>Short Description</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder="Enter a short description"  {...field} className="input" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -203,7 +203,7 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
           <FormLabel>Body</FormLabel>
           <div className="border border-gray-300 rounded-md p-2 bg-white">
             <EditorComponent
-              className="border rounded-lg p-2"
+              className="border rounded-lg p-2 bg-[#f4f4fc]" 
               content={body ?? undefined}
               onChangeCallback={(editorState) => (editorStateRef.current = editorState)}
             />
@@ -219,7 +219,7 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
                 <FormLabel>Status</FormLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full bg-[#f4f4fc]">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                   </FormControl>

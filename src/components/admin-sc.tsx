@@ -32,7 +32,7 @@ export function AdminPanel() {
       <CardContent className="grid gap-4">
         <div>
           <p className="text-lg text-muted-foreground">
-            Add and adminisrate events
+            Add and administrate events
           </p>
         </div>
       </CardContent> 
@@ -117,7 +117,7 @@ export function AdminPanel() {
       <CardContent className="grid gap-4">
         <div>
           <p className="text-lg text-muted-foreground">
-            Add and ddmnistrate Verified Addresses
+            Add and administrate Verified Addresses
           </p>
         </div>
       </CardContent>

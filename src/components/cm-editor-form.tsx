@@ -161,7 +161,7 @@ export function CMEditorForm({ initialData, onSubmit }: CMEditorFormProps) {
               <FormLabel>Type</FormLabel>
               <Select value={field.value} onValueChange={field.onChange}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4fc]">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                 </FormControl>
@@ -185,7 +185,7 @@ export function CMEditorForm({ initialData, onSubmit }: CMEditorFormProps) {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input {...field} className="input"/>
+                <Input placeholder="Enter a title" {...field} className="input"/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -200,7 +200,7 @@ export function CMEditorForm({ initialData, onSubmit }: CMEditorFormProps) {
             <FormItem>
               <FormLabel>Short Description</FormLabel>
               <FormControl>
-                <Input {...field} className="input"/>
+                <Input placeholder="Enter a short description" {...field} className="input"/>
               </FormControl>
               <FormMessage />
             </FormItem>

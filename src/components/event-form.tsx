@@ -151,7 +151,7 @@ export function EventForm({ initialData, onSubmit }: EventFormProps) {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter event title" {...field} />
+                  <Input placeholder="Enter event title" {...field} className="input" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -165,7 +165,7 @@ export function EventForm({ initialData, onSubmit }: EventFormProps) {
               <FormItem>
                 <FormLabel>Short Description</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter a short description" {...field} />
+                  <Input placeholder="Enter a short description" {...field} className="input" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
