@@ -170,8 +170,8 @@ export function EditUserForm({ userId }: EditUserFormProps) {
           </div>
         </div>
 
-        {/* Is Admin */}
-        <div>
+       {/* Is Admin */}
+       {/* <div>
           <label className="block mb-1 text-sm font-medium text-gray-700">Admin</label>
           <select
             value={userData.isAdmin ? "yes" : "no"}
@@ -183,7 +183,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
-        </div>
+        </div>*/}
 
         <div className="flex justify-center pt-6">
           <Button disabled={loading} type="submit" className="button-dark-blue text-white">
