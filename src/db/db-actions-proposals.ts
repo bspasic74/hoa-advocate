@@ -209,6 +209,13 @@ export async function checkForFinishedProposals() {
 
 }
 
+  export async function getProposalsList(count?: number) {
+    console.log("Fetching all Prposals");
+    // Fetch all events from the database
+    const proposalslist = await db.select().from(proposals).orderBy(desc(proposals.createdAt)).limit(count ?? 10);
+    return proposalslist;
+  }
+
 export async function getProposalById(id: number) {
 
     await automaticCheckProposals(); // Activate and check for finished proposals before fetching

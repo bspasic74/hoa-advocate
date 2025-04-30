@@ -68,7 +68,9 @@ export async function registerUser(formData: {
     passwordHash,
     addressId,
   });
+
   const res = await signIn("credentials", {
     email, password, redirect: false,});
-    return res; // Return the signIn response
+
+  return res; // Return the signIn response
 }

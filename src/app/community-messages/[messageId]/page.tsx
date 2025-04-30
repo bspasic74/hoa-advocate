@@ -41,10 +41,10 @@ export default async function CommunityMessagePage({ params }: PageProps) {
   }
   
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-max px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{message.title}</h1>
-      <p className="text-gray-500 text-sm mb-2">Category: {message.category}</p>
-      <div className="prose prose-lg">
+      <p className="text-gray-500 text-xl pt-10 pb-10 mb-2">Category: {message.category}</p>
+      <div className="prose prose-lg pb-20">
         {message.body ? (<>
           <ReadOnlyEditor content={message.body} />
           </>

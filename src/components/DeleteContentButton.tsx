@@ -1,14 +1,16 @@
-"use client";
+'use client';
 
 export function DeleteContentButton() {
   return (
     <button
-      type="submit"
+      type="button"
       className="bg-red-500 text-white px-4 py-2 rounded"
-      onClick={() => {
-        if (!confirm("Are you sure you want to delete this?")) {
-    
-          throw new Error("Canceled"); 
+      onClick={(e) => {
+        const confirmed = confirm("Are you sure you want to delete this?");
+        if (confirmed) {
+        
+          const form = e.currentTarget.closest("form");
+          form?.requestSubmit();
         }
       }}
     >

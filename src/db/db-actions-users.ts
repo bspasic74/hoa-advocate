@@ -51,7 +51,7 @@ export async function getAllUsers() {
       },
     })
     .from(users)
-    .leftJoin(addresses, eq(addresses.id, users.addressId)); // povezivanje
+    .leftJoin(addresses, eq(addresses.id, users.addressId)); 
   return result;
 }
 
@@ -130,7 +130,6 @@ export async function updateUser(
 
 export async function deleteUser(id: string) {
   try {
-    // Obriši korisnika po id-ju
     const result = await db.delete(users)
       .where(eq(users.id, id))
       .returning();
@@ -142,7 +141,7 @@ export async function deleteUser(id: string) {
       }
     }
 
-    // Revalidate da se osveže stranice (ako trebaš)
+
     revalidatePath('/user');
     revalidatePath(`/user/${id}`);
 

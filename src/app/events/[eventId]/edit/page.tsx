@@ -1,6 +1,6 @@
 export const runtime = 'edge';
 
-import { getEvents } from "@/db/db-actions-events";
+import { getEvent } from "@/db/db-actions-events";
 import { EventForm } from "@/components/event-form";
 
 interface EditEventPageProps {
@@ -17,7 +17,7 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
     return <div>Invalid event ID</div>;
   }
   
-  const event = await getEvents(messEvId);
+  const event = await getEvent(messEvId);
 
   if (!event) {
     return <div>Event not found</div>;

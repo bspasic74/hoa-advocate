@@ -9,3 +9,4 @@ export * from "./db/schema/accounts";
 export * from "./db/schema/authenticators";
 export * from "./db/schema/sessions";
 export * from "./db/schema/verificationTokens";
+export * from "./db/schema/verifiedaddresses";

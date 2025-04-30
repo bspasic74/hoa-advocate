@@ -77,7 +77,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
   if (!userData) return <div>Loading...</div>;
 
   return (
-    <Card className="p-6 max-w-4xl mx-auto mt-8">
+    <Card className="p-6 max-w-4xl mx-auto mt-8 fp-card-bg">
       <h2 className="text-xl font-semibold mb-4">Edit User</h2>
       <Separator className="mb-6" />
 
@@ -186,7 +186,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         </div>
 
         <div className="flex justify-center pt-6">
-          <Button disabled={loading} type="submit" className="bg-blue-500 text-white">
+          <Button disabled={loading} type="submit" className="button-dark-blue text-white">
             {loading ? "Saving..." : "Save Changes"}
           </Button>
         </div>

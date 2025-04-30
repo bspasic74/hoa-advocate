@@ -86,27 +86,16 @@ export function LoginForm({
               <Button type="submit" className="bg-black text-white rounded-md px-4 py-1 text-sm">
                 Login
               </Button>
-
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                <Button variant="outline" className="w-full">
-                  {/* Add your OAuth icons/components if needed */}
-                  Apple
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Google
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Facebook
-                </Button>
-              </div>
             </div>
           </form>
+          {/* Right side - Image */}
+          <div className="relative hidden bg-muted lg:block">
+            <img
+              src="/placeholder.png"
+              alt="Image"
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+            />
+          </div>
         </CardContent>
       </Card>
     </div>

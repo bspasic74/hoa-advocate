@@ -1,15 +1,17 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { getEventsList } from '@/db/db-actions-events';
-import { Card, CardTitle } from './ui/card';
+import Link from 'next/link';
+import { CalendarDays } from 'lucide-react';
 
 const EventsList = () => {
-    const [events, setEvents] = useState<{title:string,id:number}[]>([]);
+    const [events, setEvents] = useState<{ title: string; id: number }[]>([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
             const data = await getEventsList(5);
-            setEvents(data); // Get the last 5 messages
+            setEvents(data);
         };
 
         fetchEvents();
@@ -17,15 +19,16 @@ const EventsList = () => {
 
     return (
         <div>
-            <h2>Last Events</h2>
-            <ul>
-                {events.map((msg) => (
-                    <li key={msg.id}>
-                        <Card className="p-4 mb-2"
-                            onClick={() => window.location.href = `/events/${msg.id}`}
-                            style={{ cursor: 'pointer' }}>
-                            <CardTitle className="text-sm text-muted-foreground">{msg.title}</CardTitle>
-                        </Card>
+            <ul className="space-y-3">
+                {events.map((event) => (
+                    <li key={event.id}>
+                        <Link
+                            href={`/events/${event.id}`}
+                            className="flex items-center space-x-2 py-2 px-3 hover:bg-muted rounded-md transition-colors"
+                        >
+                            <CalendarDays className="w-4 h-4 text-muted-foreground" />
+                            <span className="fp-card-text text-muted-foreground">{event.title}</span>
+                        </Link>
                     </li>
                 ))}
             </ul>

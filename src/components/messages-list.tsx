@@ -1,15 +1,17 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { getCommunityMessages } from '@/db/db-actions-cm';
-import { Card, CardTitle } from './ui/card';
+import Link from 'next/link';
+import { MessageSquare } from 'lucide-react';
 
 const MessagesList = () => {
-    const [messages, setMessages] = useState<{title:string,id:number}[]>([]);
+    const [messages, setMessages] = useState<{ title: string; id: number }[]>([]);
 
     useEffect(() => {
         const fetchMessages = async () => {
             const data = await getCommunityMessages(5);
-            setMessages(data); // Get the last 5 messages
+            setMessages(data);
         };
 
         fetchMessages();
@@ -17,15 +19,16 @@ const MessagesList = () => {
 
     return (
         <div>
-            <h2>Last Community Messages</h2>
-            <ul>
+            <ul className="space-y-3">
                 {messages.map((msg) => (
                     <li key={msg.id}>
-                        <Card className="p-4 mb-2"
-                            onClick={() => window.location.href = `/community-messages/${msg.id}`}
-                            style={{ cursor: 'pointer' }}>
-                            <CardTitle className="text-sm text-muted-foreground">{msg.title}</CardTitle>
-                        </Card>
+                        <Link
+                            href={`/community-messages/${msg.id}`}
+                            className="flex items-center space-x-2 py-2 px-3 hover:bg-muted rounded-md transition-colors"
+                        >
+                            <MessageSquare className="w-4 h-4 text-muted-foreground" />
+                            <span className="fp-card-text text-muted-foreground">{msg.title}</span>
+                        </Link>
                     </li>
                 ))}
             </ul>

@@ -48,7 +48,7 @@ const data = {
     },
     {
       title: "Events",
-      url: "/calendar",
+      url: "/events",
       icon: Calendar,
     },
     {
@@ -160,7 +160,7 @@ const adminData = {
     },
     {
       title: "Events",
-      url: "/calendar",
+      url: "/events",
       icon: Calendar,
     },
     {

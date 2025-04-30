@@ -39,9 +39,6 @@ export default async function AdminUsersPage() {
       <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
         <div className="px-4 lg:px-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Users List</h1>
-          <Link href="/user/create">
-            <Button variant="default">Create New User</Button>
-          </Link>
         </div>
       </div>
 

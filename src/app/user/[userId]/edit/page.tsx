@@ -18,7 +18,6 @@ export default async function EditUserPage({ params }: EditPageProps) {
 
   return (
     <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">Edit Proposal</h1>
       <EditUserForm 
         userId={userId} 
         firstName={user.firstName} 

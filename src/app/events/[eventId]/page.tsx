@@ -1,7 +1,7 @@
 export const runtime = 'edge';
 
 import ReadOnlyEditor from '@/components/wyswyg-editor/readonly-editor-component';
-import { deleteEvent, getEvents } from '@/db/db-actions-events'; 
+import { deleteEvent, getEvent } from '@/db/db-actions-events'; 
 import { notFound } from 'next/navigation'
 import { format } from "date-fns";
 import Link from "next/link";
@@ -24,7 +24,7 @@ export default async function EventPage({ params }: PageProps) {
     notFound();
   }
 
-  const message = await getEvents(eventId );
+  const message = await getEvent(eventId );
   if (!message) {
     notFound();
   }
@@ -37,9 +37,9 @@ export default async function EventPage({ params }: PageProps) {
     }
 
   return (<>
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-max px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{message.title}</h1>
-      <p className="text-gray-500 text-sm mb-2">Event Date: {format(new Date(message.eventDate), "PPP")}</p>
+      <p className="text-gray-500 text-xl pt-10 pb-10  mb-2">Event Date: {format(new Date(message.eventDate), "PPP")}</p>
       <div className="prose prose-lg">
         {message.description ? (<>
           <ReadOnlyEditor content={message.description} />

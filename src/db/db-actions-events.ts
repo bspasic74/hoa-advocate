@@ -76,7 +76,7 @@ export async function createEvent({
 
 }
 
-  export async function getEvents(eventId: number) {
+  export async function getEvent(eventId: number) {
     console.log("Fetching event with ID:", eventId);
     
     // Ensure eventId is a number
@@ -119,7 +119,7 @@ export async function createEvent({
       }
       
       // Revalidate paths to update UI
-      revalidatePath('/calendar')
+      revalidatePath('/events')
       revalidatePath('/events/[eventId]')
       revalidatePath('/profile/events')
       
