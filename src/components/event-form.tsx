@@ -109,7 +109,7 @@ export function EventForm({ initialData, onSubmit }: EventFormProps) {
   return (
     <div className="flex justify-center items-start py-10">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onFormSubmit)} className="form-container space-y-6">
+        <form onSubmit={form.handleSubmit(onFormSubmit)} className="form-container max-w-max space-y-6">
           {errorMessage && <div className="text-red-500 text-sm mb-4">{errorMessage}</div>}
 
           <FormField
