@@ -15,7 +15,7 @@ import { auth } from '@/auth';
 import toast from 'react-hot-toast'; 
 import VoteForm from '@/components/vote-form';
 import VoteResults from '@/components/VoteResults';
-import { getUsersWithAddressAndVote } from '@/db/db-actions-uservote'; 
+import { getUsersWithAddressAndVote, getUserVoteForProposal } from '@/db/db-actions-uservote'; 
 import {
   Table,
   TableBody,
@@ -74,6 +74,14 @@ export default async function ProposalPage({ params }: PageProps) {
   if (proposal.status === "finished") {
     usersWithVotes = await getUsersWithAddressAndVote(proposalId.toString()); 
   }
+
+  let userHasVoted = false;
+
+  if (proposal.status === "active" && session?.user?.id) {
+    const userVote = await getUserVoteForProposal(session.user.id, proposalId);
+    userHasVoted = !!userVote;
+  }
+
   return (
     <div className="max-w-max px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{proposal.title}</h1>
@@ -135,7 +143,13 @@ export default async function ProposalPage({ params }: PageProps) {
         </Table>
       </div>
     </>
-      ) : (
+      ) : proposal.status === "pending" ? (
+        <p className="text-gray-500 text-xl pt-10 mb-2">Voting is starting on: {proposal.startdate.toLocaleDateString()}</p>
+      ) : userHasVoted ? (
+        <p className="text-green-600 text-xl pt-10 mb-2 font-semibold">
+          Already voted for this proposal
+        </p>
+      ) :  (
         <VoteForm proposalId={proposalId} />
       )}
           </div>
