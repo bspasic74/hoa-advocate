@@ -8,15 +8,15 @@ interface EditPageProps {
 }
 
 export default async function EditPage({ params }: EditPageProps) {
-    // Await the promise to get the resolved value
-    const resolvedParams = await params;
-    const messId = parseInt(resolvedParams.messageId, 10);
-  
+  // Await the promise to get the resolved value
+  const resolvedParams = await params;
+  const messId = parseInt(resolvedParams.messageId, 10);
+
   // Handle potential parsing errors
   if (isNaN(messId)) {
     return <div>Invalid message ID</div>;
   }
-  
+
   const message = await getCommunityMessage(messId);
 
   if (!message) {
@@ -24,9 +24,11 @@ export default async function EditPage({ params }: EditPageProps) {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">Edit Community Message</h1>
-      <CMEditorForm initialData={message} />
+    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+      <div className="w-full max-w-max space-y-6 rounded-lg bg-[#e9e9e9] p-6 shadow-md">
+        <h2 className="text-xl font-semibold text-center">Edit Community Message</h2>
+        <CMEditorForm initialData={message} />
+      </div>
     </div>
   );
 }

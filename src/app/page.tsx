@@ -10,8 +10,8 @@ export default async function DashboardPage() {
 
   if (!session) {
     return (
-      <div className="flex flex-1 items-center justify-center">
-        <h1 className="text-2xl font-bold">Please log in to access the dashboard</h1>
+      <div className="flex flex-1 items-center justify-center landpage">
+        <h1 className="text-3xl font-bold text-white fp-title-pos">Please log in to access the dashboard</h1>
       </div>
     );
   }

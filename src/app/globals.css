@@ -275,6 +275,18 @@ body {
   padding-bottom: 20px;
   padding-top: 20px;
 }
+.landpage{
+  background-image:url("/landpage2.jpg");
+  height:100%;
+  width:auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.fp-title-pos{
+  position: absolute;
+  top: 15%;
+}
 
 .form-container {
   @apply w-full max-w-max mx-auto p-4;
