@@ -1,7 +1,7 @@
 'use client';
 
 import Image from "next/image";
-import { registerUser } from "@/db/registerUsers"; 
+import { registerUser } from "@/db/registerUsers";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,46 +17,46 @@ import { useState } from "react";
 export function RegisterForm() {
   const router = useRouter();
   const { update } = useSession();
-  const [error, setError] = useState<string|null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-// Handle form submission
-async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault();
+  // Handle form submission
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-  setError(null);
+    setError(null);
 
-  const form = event.currentTarget;
-  const data = new FormData(form);
+    const form = event.currentTarget;
+    const data = new FormData(form);
 
 
-  const payload = {
-    firstName: data.get("firstName") as string,
-    lastName: data.get("lastName") as string,
-    email: data.get("email") as string,
-    phone: data.get("phone") as string,
-    password: data.get("password") as string,
-    address: {
-      street: data.get("address") as string,
-      city: data.get("city") as string,
-      state: data.get("state") as string,
-      zip: data.get("zip") as string,
-    },
-  };
+    const payload = {
+      firstName: data.get("firstName") as string,
+      lastName: data.get("lastName") as string,
+      email: data.get("email") as string,
+      phone: data.get("phone") as string,
+      password: data.get("password") as string,
+      address: {
+        street: data.get("address") as string,
+        city: data.get("city") as string,
+        state: data.get("state") as string,
+        zip: data.get("zip") as string,
+      },
+    };
 
-  // Register user with the collected data
-  //const result = await registerUser(payload);
-  const result = await registerUserWithAddress(payload);
-  
-  update();
- 
-  if (result?.error) {
-    console.log("Error registering user:", result.error);
-    setError("Error registering user: " + (result.error as string))
+    // Register user with the collected data
+    //const result = await registerUser(payload);
+    const result = await registerUserWithAddress(payload);
 
-  } else {
-    router.push("/") // adjust this to your protected route
+    update();
+
+    if (result?.error) {
+      console.log("Error registering user:", result.error);
+      setError("Error registering user: " + (result.error as string))
+
+    } else {
+      router.push("/") // adjust this to your protected route
+    }
   }
-}
   return (
     <Card className="overflow-hidden rounded-2xl shadow-lg p-0">
       <CardContent className="grid grid-cols-1 p-0 lg:grid-cols-2">
@@ -89,6 +89,11 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
             <div className="pb-5">
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" placeholder="you@example.com" required />
+            </div>
+
+            <div className="pb-5">
+              <Label htmlFor="phone">Phone</Label>
+              <Input id="phone" name="phone" type="tel" placeholder="(123) 456-7890" required />
             </div>
 
             <div className="pb-5">
