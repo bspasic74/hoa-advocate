@@ -225,11 +225,12 @@ body {
 .header-class{
   background:#2C3E50;
   color:#ffffff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 .header-class li a{
   color:#ffffff;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+
 }
 .button-sky-blue{
   background:#4682B4;
