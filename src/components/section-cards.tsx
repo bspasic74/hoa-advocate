@@ -25,7 +25,7 @@ import Link from "next/link";
 
 export function SectionCards() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 px-4 lg:px-6">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 px-4 lg:px-6">
       <Card className="fp-card-bg">
         <CardHeader className="flex items-center gap-2">
           <CalendarDays className="fp-title-color w-6 h-6" />

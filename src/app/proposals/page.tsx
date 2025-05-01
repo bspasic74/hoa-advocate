@@ -24,7 +24,7 @@ export default async function ProposalsPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 xl:grid-cols-3">
         {proposals?.map((proposal: any) => (
           <Card key={proposal.id} className="flex flex-col justify-between fp-card-bg">
             <CardHeader className="space-y-2">

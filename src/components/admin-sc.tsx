@@ -22,7 +22,7 @@ import {
 
 export function AdminPanel() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 lg:px-6">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 px-4 lg:px-6">
     <Card className="fp-card-bg shadow-md rounded-xl bg-gradient-to-t from-primary/5 to-card dark:bg-card border-[#e9e9e9]">
       <CardHeader className="flex items-center gap-2">
         <CalendarDays className="fp-title-color w-6 h-6" />

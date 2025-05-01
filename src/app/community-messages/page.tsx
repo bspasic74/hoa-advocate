@@ -25,7 +25,7 @@ export default async function MainCommunityMessagePage() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 xl:grid-cols-3">
         {messages.map((message: any) => (
           <Card key={message.id} className="flex flex-col justify-between fp-card-bg">
             <CardHeader>
