@@ -64,7 +64,7 @@ export function SiteHeader({ pageTitle }: { pageTitle?: string }) {
       */
 
   return (
-    <header className="header-class group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
+    <header className="sticky top-0 header-class group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
       <div className="flex w-full items-center justify-between px-4 lg:px-6">
 
         {/* Sidebar Trigger and Breadcrumbs */}
