@@ -263,7 +263,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const session = useSession();
   console.log(session.data);
   return (
-    <Sidebar   collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -282,9 +282,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={!session?.data?.user ? [] : session.data?.user.isAdmin ? adminData.navMain : data.navMain} />
       </SidebarContent>
-      <SidebarFooter>    
-        <NavUser user={{ id: session.data?.user?.id ?? "", name: session.data?.user?.name ?? "", email: session.data?.user?.email ?? "", avatar: (session.data?.user as any)?.avatar ?? "" }} />
-      </SidebarFooter>
+      {session.data?.user && (
+        <SidebarFooter>
+          <NavUser
+            user={{
+              id: session.data.user.id ?? "",
+              name: session.data.user.name ?? "",
+              email: session.data.user.email ?? "",
+              avatar: (session.data.user as any)?.avatar ?? "",
+            }}
+          />
+        </SidebarFooter>
+      )}
     </Sidebar>
   )
 }
