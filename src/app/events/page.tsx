@@ -8,7 +8,7 @@ export default async function CalendarPage() {
   const events = await getAllEvents();
   console.log("events", events);
   return (
-    <div className="flex flex-col items-center justify-center bg-muted md:p-3">
+    <div className="flex flex-col items-center justify-center bg-muted p-4 md:p-3">
       <CalendarComponent initialEvents={events}/>
     </div>
   )
