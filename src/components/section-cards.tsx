@@ -42,7 +42,7 @@ export function SectionCards() {
         <CardFooter>
           <Link href="/events" className="w-full">
             <Button className="button-dark-blue mx-auto">
-              Read more
+              View All Events
             </Button>
           </Link>
         </CardFooter>
@@ -65,7 +65,7 @@ export function SectionCards() {
         <CardFooter>
           <Link href="/community-messages" className="w-full">
             <Button className="button-dark-blue mx-auto">
-              Read more
+              View All Messages
             </Button>
           </Link>
         </CardFooter>
@@ -88,7 +88,7 @@ export function SectionCards() {
         <CardFooter>
           <Link href="/proposals" className="w-full">
             <Button className="button-dark-blue mx-auto">
-              Read more
+              View all Proposals
             </Button>
           </Link>
         </CardFooter>

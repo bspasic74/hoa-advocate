@@ -77,53 +77,53 @@ export function RegisterForm() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 pb-5 gap-4">
               <div>
-                <Label htmlFor="firstName">First Name</Label>
+                <Label className="pb-2" htmlFor="firstName">First Name</Label>
                 <Input id="firstName" name="firstName" type="text" placeholder="John" required />
               </div>
               <div>
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label className="pb-2" htmlFor="lastName">Last Name</Label>
                 <Input id="lastName" name="lastName" type="text" placeholder="Doe" required />
               </div>
             </div>
 
             <div className="pb-5">
-              <Label htmlFor="email">Email</Label>
+              <Label className="pb-2" htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" placeholder="you@example.com" required />
             </div>
 
             <div className="pb-5">
-              <Label htmlFor="phone">Phone</Label>
+              <Label className="pb-2" htmlFor="phone">Phone</Label>
               <Input id="phone" name="phone" type="tel" placeholder="(123) 456-7890" required />
             </div>
 
             <div className="pb-5">
-              <Label htmlFor="address">Address</Label>
+              <Label className="pb-2" htmlFor="address">Address</Label>
               <Input id="address" name="address" type="text" placeholder="Example Street/12-34" required />
             </div>
 
             {/* New Fields: City, State, Zip */}
             <div className="grid grid-cols-3 gap-4 pb-5">
               <div>
-                <Label htmlFor="city">City</Label>
+                <Label className="pb-2" htmlFor="city">City</Label>
                 <Input id="city" name="city" type="text" placeholder="New York" required />
               </div>
               <div>
-                <Label htmlFor="state">State</Label>
+                <Label className="pb-2" htmlFor="state">State</Label>
                 <Input id="state" name="state" type="text" placeholder="NY" required />
               </div>
               <div>
-                <Label htmlFor="zip">Zip Code</Label>
+                <Label className="pb-2" htmlFor="zip">Zip Code</Label>
                 <Input id="zip" name="zip" type="text" placeholder="10001" required />
               </div>
             </div>
 
             <div className="pb-5">
-              <Label htmlFor="password">Password</Label>
+              <Label className="pb-5" htmlFor="password">Password</Label>
               <Input id="password" name="password" type="password" placeholder="********" required />
             </div>
 
             <div className="pb-5">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label className="pb-5" htmlFor="confirmPassword">Confirm Password</Label>
               <Input id="confirmPassword" name="confirmPassword" type="password" placeholder="********" required />
             </div>
 
