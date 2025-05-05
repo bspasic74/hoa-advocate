@@ -18,8 +18,14 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import DeleteUserForm from "@/components/deleteUserForm";
 
+
 export default async function AdminUsersPage() {
   const users = await getAllUsers();
+  const session = await auth();
+
+  if (!session?.user) {
+    return <div>Not authorized</div>;
+  }
 
   async function handleDelete(formData: FormData) {
     "use server";
