@@ -8,25 +8,27 @@ interface EditEventPageProps {
 }
 
 export default async function EditEventPage({ params }: EditEventPageProps) {
-    // Await the promise to get the resolved value
-    const resolvedParams = await params;
-    const messEvId = parseInt(resolvedParams.eventId, 10);
-  
+  // Await the promise to get the resolved value
+  const resolvedParams = await params;
+  const messEvId = parseInt(resolvedParams.eventId, 10);
+
   // Handle potential parsing errors
   if (isNaN(messEvId)) {
     return <div>Invalid event ID</div>;
   }
-  
+
   const event = await getEvent(messEvId);
 
   if (!event) {
     return <div>Event not found</div>;
   }
-      
+
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">Edit Event</h1>
-      <EventForm initialData={event} />
+    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+      <div className="w-full max-w-max space-y-6 rounded-lg bg-[#e9e9e9] p-6 shadow-md">
+        <h2 className="text-xl font-semibold text-center">Edit Event</h2>
+        <EventForm initialData={event} />
+      </div>
     </div>
   );
 }
