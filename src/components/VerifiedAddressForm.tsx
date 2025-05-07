@@ -53,7 +53,7 @@ export function VerifiedAddressForm({ action }: Props) {
             <FormItem>
               <FormLabel>Street Address</FormLabel>
               <FormControl>
-                <Input className="bg-[#f4f4fc]" {...field} required />
+                <Input className="bg-[#f4f4fc] input" {...field} required />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -65,7 +65,7 @@ export function VerifiedAddressForm({ action }: Props) {
             <FormItem>
               <FormLabel>City</FormLabel>
               <FormControl>
-                <Input className="bg-[#f4f4fc]" {...field} required />
+                <Input className="bg-[#f4f4fc] input" {...field} required />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,7 +78,7 @@ export function VerifiedAddressForm({ action }: Props) {
               <FormLabel>State</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="bg-[#f4f4fc]">
+                  <SelectTrigger className="bg-[#f4f4fc] input">
                     <SelectValue placeholder="Select a state" />
                   </SelectTrigger>
                 </FormControl>
@@ -100,7 +100,7 @@ export function VerifiedAddressForm({ action }: Props) {
             <FormItem>
               <FormLabel>Zip Code</FormLabel>
               <FormControl>
-                <Input className="bg-[#f4f4fc]" {...field} required />
+                <Input className="bg-[#f4f4fc] input" {...field} required />
               </FormControl>
               <FormMessage />
             </FormItem>

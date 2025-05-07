@@ -191,7 +191,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">First Name</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             name="firstName"
             value={userData.firstName || ""}
             onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
@@ -200,7 +200,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">Last Name</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             name="lastName"
             value={userData.lastName || ""}
             onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
@@ -213,7 +213,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">Email</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             name="email"
             value={userData.email}
             onChange={(e) => setUserData({ ...userData, email: e.target.value })}
@@ -222,7 +222,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">Phone</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             name="phone"
             value={userData.phone || ""}
             onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
@@ -235,7 +235,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">Street Address</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             name="address"
             value={userData.address?.streetAddress || ""}
             onChange={(e) =>
@@ -249,7 +249,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">City</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             name="city"
             value={userData.address?.city || ""}
             onChange={(e) =>
@@ -263,7 +263,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">State</label>
           <select 
-            className="bg-[#f4f4fc] w-full border rounded p-2"
+            className="bg-[#f4f4fc] input w-full border rounded p-2"
             name="state"
             value={userData.address?.state || ""}
             onChange={(e) =>
@@ -290,7 +290,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">Zip Code</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             name="zip"
             value={userData.address?.zipCode || ""}
             onChange={(e) =>
@@ -316,7 +316,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">New Password</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -325,7 +325,7 @@ export function EditUserForm({ userId }: EditUserFormProps) {
         <div>
           <label className="block mb-1 text-sm font-medium">Confirm Password</label>
           <Input 
-            className="bg-[#f4f4fc]"
+            className="bg-[#f4f4fc] input"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
