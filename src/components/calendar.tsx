@@ -12,6 +12,7 @@ import { title } from 'process';
 import { useEffect, useState } from 'react'
 import Link from 'next/link';
 import { useSession } from "next-auth/react";
+import { prepareDatabaseDateForDisplay } from '@/lib/utils';
 
 interface CalendarEvent {
   id: string;
@@ -42,11 +43,12 @@ export function CalendarComponent({initialEvents} : Props) {
     initialEvents.forEach(event => {
       console.log("Original eventDate from DB:", event.eventDate); // ← OVO DODAJ
     });
+
     const formatted: CalendarEvent[] = initialEvents.map(event => ({
       id: event.id.toString(),
       title: event.title,
       //start: new Date( event.eventDate.getUTCFullYear(), event.eventDate.getUTCMonth(), event.eventDate.getUTCDate() ).toISOString(),
-      start: event.eventDate.toLocaleDateString('sv-SE'), // format: YYYY-MM-DD
+      start: prepareDatabaseDateForDisplay(event.eventDate).toLocaleDateString('sv-SE'), // format: YYYY-MM-DD
       description: event.shortdescription,
       allDay: true,
     }))

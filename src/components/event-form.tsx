@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, prepareDatabaseDateForDisplay, prepareDateForDatabase } from "@/lib/utils"
 import { format } from "date-fns"
 import EditorComponent from "@/components/wyswyg-editor/editor-component"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -50,7 +50,7 @@ export function EventForm({ initialData, onSubmit }: EventFormProps) {
   const form = useForm<EventFormSchema>({
     resolver: zodResolver(eventSchema),
     defaultValues: {
-      eventDate: initialData?.eventDate ? new Date(initialData.eventDate) : new Date(),
+      eventDate: initialData?.eventDate ? prepareDatabaseDateForDisplay(initialData.eventDate) : new Date(),
       title: initialData?.title || "",
       shortdescription: initialData?.shortdescription || ""
     }
@@ -75,11 +75,10 @@ export function EventForm({ initialData, onSubmit }: EventFormProps) {
     setIsSaving(true)
 
     const payload = {
-      eventDate: new Date(Date.UTC(values.eventDate.getFullYear(), values.eventDate.getMonth(), values.eventDate.getDate())),
+      eventDate: prepareDateForDatabase(values.eventDate),
       title: values.title,
       shortdescription: values.shortdescription,
       description: editorState ? JSON.stringify(editorState.toJSON()) : null,
-      adminId: "test",
     }
 
     try {

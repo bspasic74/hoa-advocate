@@ -207,9 +207,7 @@ body {
 .sidebar-container-class{
     background:#F8F9FA;
 }
-.sidebar-visual li{
-  border-bottom: 1px solid #ffffff;
-}
+
 .sidebar-content-class{
   padding:5px;
 }

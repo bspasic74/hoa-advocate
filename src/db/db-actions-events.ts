@@ -16,7 +16,6 @@ export async function setUserAsAdmin(userId: string) {
     shortdescription: string,
     description: string | null,
     eventDate: Date,
-    adminId: string
   }
 
   interface Event {
@@ -31,7 +30,6 @@ export async function createEvent({
   description,
   shortdescription,
   eventDate,
-  adminId
 }: CreateEventProps
 ): Promise<{ 
   success: boolean; 
@@ -143,13 +141,12 @@ export async function createEvent({
       title,
       description,
       shortdescription,
-      adminId,
     }: CreateEventProps
   ): Promise<{ success: boolean; message?: typeof events.$inferSelect; error?: string }> {
     try {
       const updated = await db
         .update(events)
-        .set({ eventDate, title, description, shortdescription, adminId })
+        .set({ eventDate, title, description, shortdescription})
         .where(eq(events.id, id))
         .returning();
   

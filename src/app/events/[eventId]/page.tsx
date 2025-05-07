@@ -8,6 +8,7 @@ import Link from "next/link";
 import { DeleteContentButton } from '@/components/DeleteContentButton';
 import { redirect } from "next/navigation";
 import { auth } from '@/auth';
+import { prepareDatabaseDateForDisplay } from '@/lib/utils';
 
 interface PageProps {
   params: Promise<{
@@ -39,7 +40,7 @@ export default async function EventPage({ params }: PageProps) {
   return (<>
     <div className="max-w-max px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{message.title}</h1>
-      <p className="text-gray-500 text-xl pt-10 pb-10  mb-2">Event Date: {format(new Date(message.eventDate), "PPP")}</p>
+      <p className="text-gray-500 text-xl pt-10 pb-10  mb-2">Event Date: {format(prepareDatabaseDateForDisplay(message.eventDate), "PPP")}</p>
       <div className="prose prose-lg">
         {message.description ? (<>
           <ReadOnlyEditor content={message.description} />

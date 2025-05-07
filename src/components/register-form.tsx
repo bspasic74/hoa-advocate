@@ -19,7 +19,6 @@ export function RegisterForm() {
   const { update } = useSession();
   const [error, setError] = useState<string | null>(null);
 
-  // Handle form submission
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -28,13 +27,36 @@ export function RegisterForm() {
     const form = event.currentTarget;
     const data = new FormData(form);
 
+    const phone = data.get("phone") as string;
+    const password = data.get("password") as string;
+    const confirmPassword = data.get("confirmPassword") as string;
+
+    const phoneRegex = /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+
+
+    if (!phoneRegex.test(phone)) {
+      setError("Phone number format is invalid. Expected format: 123-456-7890 or similar.");
+      return;
+    }
+
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
 
     const payload = {
       firstName: data.get("firstName") as string,
       lastName: data.get("lastName") as string,
       email: data.get("email") as string,
-      phone: data.get("phone") as string,
-      password: data.get("password") as string,
+      phone,
+      password,
       address: {
         street: data.get("address") as string,
         city: data.get("city") as string,
@@ -43,18 +65,19 @@ export function RegisterForm() {
       },
     };
 
-    // Register user with the collected data
-    //const result = await registerUser(payload);
-    const result = await registerUserWithAddress(payload);
+    try {
+      const result = await registerUserWithAddress(payload);
+      update();
 
-    update();
-
-    if (result?.error) {
-      console.log("Error registering user:", result.error);
-      setError("Error registering user: " + (result.error as string))
-
-    } else {
-      router.push("/") // adjust this to your protected route
+      if (result?.error) {
+        console.log("Error registering user:", result.error);
+        setError("Error registering user: " + (result.error as string));
+      } else {
+        router.push("/");
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setError("Unexpected error occurred during registration.");
     }
   }
   return (
@@ -75,7 +98,7 @@ export function RegisterForm() {
 
           {/* The form now has the submit handler */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 pb-5 gap-4">
+            <div className="grid grid-cols-2 pb-4 gap-4">
               <div>
                 <Label className="pb-2" htmlFor="firstName">First Name</Label>
                 <Input id="firstName" name="firstName" type="text" placeholder="John" required />
@@ -86,44 +109,59 @@ export function RegisterForm() {
               </div>
             </div>
 
-            <div className="pb-5">
+            <div className="pb-4">
               <Label className="pb-2" htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" placeholder="you@example.com" required />
             </div>
 
-            <div className="pb-5">
+            <div className="pb-4">
               <Label className="pb-2" htmlFor="phone">Phone</Label>
-              <Input id="phone" name="phone" type="tel" placeholder="(123) 456-7890" required />
+              <Input id="phone" name="phone" type="tel" placeholder="123-456-7890" required />
             </div>
 
-            <div className="pb-5">
+            <div className="pb-4">
               <Label className="pb-2" htmlFor="address">Address</Label>
               <Input id="address" name="address" type="text" placeholder="Example Street/12-34" required />
             </div>
 
             {/* New Fields: City, State, Zip */}
-            <div className="grid grid-cols-3 gap-4 pb-5">
+            <div className="grid grid-cols-2 gap-4 pb-4">
               <div>
                 <Label className="pb-2" htmlFor="city">City</Label>
                 <Input id="city" name="city" type="text" placeholder="New York" required />
-              </div>
-              <div>
-                <Label className="pb-2" htmlFor="state">State</Label>
-                <Input id="state" name="state" type="text" placeholder="NY" required />
               </div>
               <div>
                 <Label className="pb-2" htmlFor="zip">Zip Code</Label>
                 <Input id="zip" name="zip" type="text" placeholder="10001" required />
               </div>
             </div>
-
-            <div className="pb-5">
-              <Label className="pb-5" htmlFor="password">Password</Label>
-              <Input id="password" name="password" type="password" placeholder="********" required />
+            <div className="pb-4">
+              <Label className="pb-2" htmlFor="state">State</Label>
+              <select
+                id="state"
+                name="state"
+                required
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+              >
+                <option value="">Select a state</option>
+                {[
+                  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+                  "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                  "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+                  "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+                  "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
+                ].map((state) => (
+                  <option key={state} value={state}>{state}</option>
+                ))}
+              </select>
+            </div>
+            <div className="pb-4">
+              <Label className="pb-2" htmlFor="password">Password</Label>
+              <Input id="password" name="password" type="password" placeholder="Password must be at least 8 characters long." required />
             </div>
 
-            <div className="pb-5">
-              <Label className="pb-5" htmlFor="confirmPassword">Confirm Password</Label>
+            <div className="pb-4">
+              <Label className="pb-2" htmlFor="confirmPassword">Confirm Password</Label>
               <Input id="confirmPassword" name="confirmPassword" type="password" placeholder="********" required />
             </div>
 

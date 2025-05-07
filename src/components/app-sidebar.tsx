@@ -169,9 +169,31 @@ const adminData = {
       icon: Vote,
     },
     {
-      title: "Admin Panel",
-      url: "/admin-panel",
-      icon: ShieldUser,
+      title: "Admin",
+      url: "#",
+      icon: ShieldUser, 
+      items: [
+        {
+          title: "Add Community Message",
+          url: "/cm-editor",
+        },
+        {
+          title: "Add Event",
+          url: "/events",
+        },
+        {
+          title: "Add Proposal",
+          url: "/proposal-editor",
+        },
+        {
+          title: "User Management",
+          url: "/user",
+        },
+        {
+          title: "Verified Addresses",
+          url: "/verified-addresses",
+        },
+      ],
     },
   ],
   navClouds: [
@@ -271,7 +293,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <a href="/">
                 <ArrowUpCircleIcon className="h-5 w-5" />
                 <span className="text-base font-semibold">HOA Advocate</span>
               </a>
@@ -280,7 +302,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={!session?.data?.user ? [] : session.data?.user.isAdmin ? adminData.navMain : data.navMain} />
+        <NavMain
+          items={
+            !session?.data?.user
+              ? []
+              : (session.data?.user.isAdmin ? adminData.navMain : data.navMain).filter(
+                  (item) => item.url !== undefined
+                )
+          }
+        />
       </SidebarContent>
       {session.data?.user && (
         <SidebarFooter>
