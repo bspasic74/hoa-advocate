@@ -12,10 +12,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Props {
   action: (formData: FormData) => void;
 }
+
+const US_STATES = [
+  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+  "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+  "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+  "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+  "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
+];
 
 export function VerifiedAddressForm({ action }: Props) {
   const { pending } = useFormStatus();
@@ -31,14 +46,14 @@ export function VerifiedAddressForm({ action }: Props) {
 
   return (
     <Form {...form}>
-      <form action={action} className="w-full max-w-5xl mx-auto space-y-6 p-4">
+      <form action={action} className="form-container space-y-6">
         <FormField
           name="streetAddress"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Street Address</FormLabel>
               <FormControl>
-                <Input {...field} required />
+                <Input className="bg-[#f4f4fc]" {...field} required />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -50,7 +65,7 @@ export function VerifiedAddressForm({ action }: Props) {
             <FormItem>
               <FormLabel>City</FormLabel>
               <FormControl>
-                <Input {...field} required />
+                <Input className="bg-[#f4f4fc]" {...field} required />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -61,9 +76,20 @@ export function VerifiedAddressForm({ action }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>State</FormLabel>
-              <FormControl>
-                <Input {...field} required />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="bg-[#f4f4fc]">
+                    <SelectValue placeholder="Select a state" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {US_STATES.map((state) => (
+                    <SelectItem key={state} value={state}>
+                      {state}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -74,20 +100,16 @@ export function VerifiedAddressForm({ action }: Props) {
             <FormItem>
               <FormLabel>Zip Code</FormLabel>
               <FormControl>
-                <Input {...field} required />
+                <Input className="bg-[#f4f4fc]" {...field} required />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Dugmad vertikalno */}
-        <div className="flex flex-col gap-4">
-          <Button type="submit" disabled={pending}>
+        <div className="flex justify-center pt-6">
+          <Button className="button-dark-blue" type="submit" disabled={pending}>
             {pending ? "Saving..." : "Save Address"}
-          </Button>
-          <Button type="reset" variant="outline">
-            Reset
           </Button>
         </div>
       </form>

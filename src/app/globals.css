@@ -291,7 +291,7 @@ body {
 }
 
 .form-container {
-  @apply w-full max-w-max mx-auto p-4;
+  @apply w-full mx-auto p-4;
 }
 
 .input {

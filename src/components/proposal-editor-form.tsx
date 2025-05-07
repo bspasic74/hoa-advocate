@@ -236,8 +236,8 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
           />
         )}
 
-        <div className="flex justify-end">
-          <Button type="submit" disabled={isSaving} className="bg-black text-white">
+        <div className="flex justify-center">
+          <Button type="submit" disabled={isSaving} className="button-dark-blue text-white">
             {isSaving ? "Saving..." : "Submit"}
           </Button>
         </div>

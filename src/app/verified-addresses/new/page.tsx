@@ -7,15 +7,17 @@ import { Button } from "@/components/ui/button";
 
 export default function NewVerifiedAddressPage() {
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6 p-4">
-      <h2 className="text-xl font-semibold text-center">Add Verified Address</h2>
+    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+      <div className="w-full max-w-4xl space-y-6 rounded-lg bg-[#e9e9e9] p-6 shadow-md">
+        <h2 className="text-xl font-semibold text-center">Add Verified Address</h2>
 
-      <VerifiedAddressForm action={createVerifiedAddress} />
+        <VerifiedAddressForm action={createVerifiedAddress} />
 
-      <div className="mt-6">
-        <Link href="/verified-addresses">
-          <Button variant="secondary">Back to List</Button>
-        </Link>
+        <div className="flex justify-center mt-6">
+          <Link href="/verified-addresses">
+            <Button className="button-dark-blue" variant="secondary">Back to List</Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

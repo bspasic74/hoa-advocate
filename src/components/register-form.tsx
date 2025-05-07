@@ -165,7 +165,7 @@ export function RegisterForm() {
               <Input id="confirmPassword" name="confirmPassword" type="password" placeholder="********" required />
             </div>
 
-            <Button type="submit" className="bg-black text-white rounded-md px-4 py-1 text-sm">
+            <Button type="submit" className="button-dark-blue text-white rounded-md px-4 py-1 text-sm">
               Register
             </Button>
           </form>

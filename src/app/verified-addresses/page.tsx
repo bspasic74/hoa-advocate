@@ -11,7 +11,7 @@ export default async function VerifiedAddressesPage() {
   const addresses = await db.select().from(verifiedAddresses);
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
+    <div className="w-full mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold mb-6">Verified Addresses</h1>
 
       <Table>
@@ -44,7 +44,7 @@ export default async function VerifiedAddressesPage() {
 
       <div className="mt-8">
         <Link href="/verified-addresses/new">
-          <Button>Add New Address</Button>
+          <Button className="button-dark-blue text-white">Add New Address</Button>
         </Link>
       </div>
     </div>

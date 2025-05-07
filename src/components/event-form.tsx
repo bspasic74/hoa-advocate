@@ -182,8 +182,8 @@ export function EventForm({ initialData, onSubmit }: EventFormProps) {
             </div>
           </div>
 
-          <div className="flex justify-end">
-            <Button type="submit" disabled={isSaving} className="bg-black text-white">
+          <div className="flex justify-center">
+            <Button type="submit" disabled={isSaving} className="button-dark-blue text-white">
               {isSaving ? "Saving Event..." : "Save Event"}
             </Button>
           </div>

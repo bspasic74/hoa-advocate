@@ -37,7 +37,7 @@ export default function DeleteUserForm({ userId }: { userId: string }) {
   return (
     <form action={deleteUserAction} onSubmit={confirmDelete} className="inline">
       <input type="hidden" name="userId" value={userId} />
-      <Button variant="destructive" size="sm" type="submit" disabled={isPending}>
+      <Button className="button-dark-blue" variant="destructive" size="sm" type="submit" disabled={isPending}>
         {isPending ? "Deleting..." : "Delete"}
       </Button>
     </form>

@@ -83,7 +83,7 @@ export function LoginForm({
                 <p className="text-sm text-red-500 text-center">{error}</p>
               )}
 
-              <Button type="submit" className="bg-black text-white rounded-md px-4 py-1 text-sm">
+              <Button type="submit" className="button-dark-blue text-white rounded-md px-4 py-1 text-sm">
                 Login
               </Button>
             </div>
