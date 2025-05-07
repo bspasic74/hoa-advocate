@@ -23,7 +23,7 @@ const ProposalsList = () => {
                 {proposals.map((proposal) => (
                     <li key={proposal.id}>
                         <Link
-                            href={`/community-messages/${proposal.id}`}
+                            href={`/proposals/${proposal.id}`}
                             className="flex items-center space-x-2 py-2 px-3 hover:bg-muted rounded-md transition-colors"
                         >
                             <FileEdit className="w-4 h-4 text-muted-foreground" />
