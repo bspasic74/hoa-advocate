@@ -161,7 +161,7 @@ export function CMEditorForm({ initialData, onSubmit }: CMEditorFormProps) {
               <FormLabel>Type</FormLabel>
               <Select value={field.value} onValueChange={field.onChange}>
                 <FormControl>
-                  <SelectTrigger className="bg-[#f4f4fc]">
+                  <SelectTrigger className="bg-[#f4f4fc] input">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                 </FormControl>
