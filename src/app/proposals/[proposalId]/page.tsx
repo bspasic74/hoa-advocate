@@ -156,7 +156,7 @@ export default async function ProposalPage({ params }: PageProps) {
         <VoteForm proposalId={proposalId} />
       )}
       {session?.user.isAdmin && (
-        <div className="flex gap-4">
+        <div className="flex gap-4 pt-3">
           <Link href={`/proposals/${proposalId}/edit`}>
             <button className="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
           </Link>
