@@ -114,9 +114,6 @@ export function ProposalEditorForm({ initialData }: { initialData?: typeof propo
         {errorMessage && <div className="text-red-500 text-sm mb-4">{errorMessage}</div>}
         
         {/* Form header based on whether it's new or edit */}
-        <h2 className="text-xl font-semibold">
-          {isNewProposal ? "Create New Proposal" : "Edit Proposal"}
-        </h2>
 
         <FormField
           control={form.control}
