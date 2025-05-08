@@ -105,6 +105,8 @@ export function EventForm({ initialData, onSubmit }: EventFormProps) {
     }
   }
 
+  console.log("initial data description: ", initialData?.description);
+
   return (
     <div className="flex justify-center items-start py-10">
       <Form {...form}>

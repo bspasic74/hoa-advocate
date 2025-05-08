@@ -8,6 +8,8 @@ interface EditEventPageProps {
 }
 
 export default async function EditEventPage({ params }: EditEventPageProps) {
+  
+  console.log("OPENED EDIT EVENT PAGE *****************");
   // Await the promise to get the resolved value
   const resolvedParams = await params;
   const messEvId = parseInt(resolvedParams.eventId, 10);
@@ -22,6 +24,8 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
   if (!event) {
     return <div>Event not found</div>;
   }
+
+  console.log("initial data: ", event);
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">

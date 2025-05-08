@@ -21,13 +21,14 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-import { cn } from "@/lib/utils"
+import { cn, prepareDatabaseDateForDisplay, prepareDateForDatabase } from "@/lib/utils"
 import { useIsClient } from "@/hooks/use-is-client"
 import EditorComponent from "./wyswyg-editor/editor-component"
 import { TimePickerDemo } from "./ui/time-picker-demo"
 import { createProposal, getProposalById, updateProposal } from "@/db/db-actions-proposals"
 import "@/components/wyswyg-editor/index.css"
 import { EditorState } from "lexical"
+import { proposals } from "@/schema"
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -37,25 +38,34 @@ const formSchema = z.object({
   status: z.string().optional(),
 })
 
-export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
-  const isClient = useIsClient()
-  const editorStateRef = useRef<EditorState | null>(null)
+export function ProposalEditorForm({ initialData }: { initialData?: typeof proposals.$inferSelect }) {
 
-  const [body, setBody] = useState<string | null>(null)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [isSaving, setIsSaving] = useState(false)
+  console.log("proposal initial data: ", initialData);
+  if (initialData?.status != "pending" && initialData?.status != "canceled"){
+    return <>
+    <div>Ne moze</div>
+    </>
+  }
+
+  const isClient = useIsClient();
+  const editorStateRef = useRef<EditorState | null>(null);
+
+  //const [body, setBody] = useState<string | undefined>(undefined);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      shortDescription: "",
-      startDate: new Date(),
-      endDate: new Date(),
-      status: "pending",
+      title: initialData?.title ?? "",
+      shortDescription: initialData?.shortdescription ?? "",
+      startDate: initialData?.startdate ? prepareDatabaseDateForDisplay(initialData.startdate) : new Date(),
+      endDate: initialData?.enddate ? prepareDatabaseDateForDisplay(initialData.enddate) : new Date(),
+      status: initialData?.status ?? "pending",
     },
-  })
+  });
 
+  /*
   useEffect(() => {
     const fetchProposal = async () => {
       if (proposalId) {
@@ -66,13 +76,13 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
           form.setValue("startDate", data.startdate ? new Date(data.startdate) : new Date())
           form.setValue("endDate", data.enddate ? new Date(data.enddate) : new Date())
           form.setValue("status", data.status || "pending")
-          setBody(data.description || null)
+          setBody(data.description ?? undefined);
         }
       }
     }
     fetchProposal()
   }, [proposalId])
-
+*/
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSaving(true)
     setErrorMessage(null)
@@ -88,14 +98,14 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
     const payload = {
       title: values.title,
       shortdescription: values.shortDescription,
-      startDate: values.startDate,
-      endDate: values.endDate,
+      startDate: prepareDateForDatabase(values.startDate),
+      endDate: prepareDateForDatabase(values.endDate),
       body: bodyData,
       status: values.status || "pending",
     }
 
-    const res = proposalId
-      ? await updateProposal({ id: proposalId, ...payload })
+    const res = initialData?.id
+      ? await updateProposal({ id: initialData.id, ...payload })
       : await createProposal(payload)
 
     setIsSaving(false)
@@ -204,13 +214,13 @@ export function ProposalEditorForm({ proposalId }: { proposalId?: number }) {
           <div className="border border-gray-300 rounded-md p-2 bg-white">
             <EditorComponent
               className="border rounded-lg p-2 bg-[#f4f4fc]" 
-              content={body ?? undefined}
+              content={initialData?.description ?? undefined}
               onChangeCallback={(editorState) => (editorStateRef.current = editorState)}
             />
           </div>
         </div>
 
-        {proposalId && (
+        { initialData?.id && (
           <FormField
             control={form.control}
             name="status"

@@ -1,9 +1,9 @@
 
 export const runtime = 'edge';
 
-import { voteForProposal } from '@/db/db-actions-proposals'; 
+import { voteForProposal } from '@/db/db-actions-proposals';
 import ReadOnlyEditor from '@/components/wyswyg-editor/readonly-editor-component';
-import { getProposalById } from '@/db/db-actions-proposals'; 
+import { getProposalById } from '@/db/db-actions-proposals';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { revalidatePath } from "next/cache"
@@ -12,11 +12,11 @@ import { deleteProposal } from "@/db/db-actions-proposals";
 import { DeleteContentButton } from '@/components/DeleteContentButton';
 import Link from "next/link";
 import { auth } from '@/auth';
-import toast from 'react-hot-toast'; 
+import toast from 'react-hot-toast';
 import VoteForm from '@/components/vote-form';
 import VoteResults from '@/components/VoteResults';
 import { getUsersWithAddressAndVote } from '@/db/db-actions-uservote';
-import { getUserVoteForProposal } from '@/db/db-actions-uservote';  
+import { getUserVoteForProposal } from '@/db/db-actions-uservote';
 import {
   Table,
   TableBody,
@@ -67,13 +67,13 @@ export default async function ProposalPage({ params }: PageProps) {
   async function handleDelete() {
     "use server";
     await deleteProposal(proposalId);
-    redirect("/proposals"); 
+    redirect("/proposals");
   }
 
   let usersWithVotes: UserWithVote[] = [];
 
   if (proposal.status === "finished") {
-    usersWithVotes = await getUsersWithAddressAndVote(proposalId.toString()); 
+    usersWithVotes = await getUsersWithAddressAndVote(proposalId.toString());
   }
 
   let userHasVoted = false;
@@ -91,7 +91,7 @@ export default async function ProposalPage({ params }: PageProps) {
       <div className="prose prose-lg pt-5 pb-5">
         {proposal.description ? (<>
           <ReadOnlyEditor content={proposal.description} />
-          </>
+        </>
         ) : (
           <p className="text-gray-400 italic">{proposal.shortdescription}</p>
         )}
@@ -101,58 +101,71 @@ export default async function ProposalPage({ params }: PageProps) {
       {proposal.status === "finished" ? (<>
         <VoteResults yesVotes={proposal.votesYesCount ?? 0} totalVotes={proposal.votesCount ?? 0} />
         <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">User Votes</h2>
-    
-        <Table>
-          <TableCaption>A list of users and their votes.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[50px]">#</TableHead>
-              <TableHead>First Name</TableHead>
-              <TableHead>Last Name</TableHead>
-              <TableHead>Address</TableHead>
-              <TableHead>Vote</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {usersWithVotes.map((user: UserWithVote, index: number) => (
-              <TableRow key={user.id} className="hover:bg-gray-100 transition">
-                <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell>
-                  <Link href={`/user/${user.id}`} className="text-blue-600 hover:underline">
-                    {user.firstName ?? "-"}
-                  </Link>
-                </TableCell>
-                <TableCell>{user.lastName ?? "-"}</TableCell>
-                <TableCell>
-                  {user.address
-                    ? `${user.address.streetAddress}, ${user.address.city}, ${user.address.state} ${user.address.zipCode}`
-                    : "No Address"}
-                </TableCell>
-                <TableCell>
-                  {user.voteValue === true ? (
-                    <span className="text-green-600 font-semibold">Yes</span>
-                  ) : user.voteValue === false ? (
-                    <span className="text-red-600 font-semibold">No</span>
-                  ) : (
-                    <span className="text-gray-500 italic">Not Voted</span>
-                  )}
-                </TableCell>
+          <h2 className="text-2xl font-semibold mb-4">User Votes</h2>
+
+          <Table>
+            <TableCaption>A list of users and their votes.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[50px]">#</TableHead>
+                <TableHead>First Name</TableHead>
+                <TableHead>Last Name</TableHead>
+                <TableHead>Address</TableHead>
+                <TableHead>Vote</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    </>
+            </TableHeader>
+            <TableBody>
+              {usersWithVotes.map((user: UserWithVote, index: number) => (
+                <TableRow key={user.id} className="hover:bg-gray-100 transition">
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>
+                    <Link href={`/user/${user.id}`} className="text-blue-600 hover:underline">
+                      {user.firstName ?? "-"}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{user.lastName ?? "-"}</TableCell>
+                  <TableCell>
+                    {user.address
+                      ? `${user.address.streetAddress}, ${user.address.city}, ${user.address.state} ${user.address.zipCode}`
+                      : "No Address"}
+                  </TableCell>
+                  <TableCell>
+                    {user.voteValue === true ? (
+                      <span className="text-green-600 font-semibold">Yes</span>
+                    ) : user.voteValue === false ? (
+                      <span className="text-red-600 font-semibold">No</span>
+                    ) : (
+                      <span className="text-gray-500 italic">Not Voted</span>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </>
       ) : proposal.status === "pending" ? (
         <p className="text-gray-500 text-xl pt-10 mb-2">Voting is starting on: {proposal.startdate.toLocaleDateString()}</p>
+      ) : proposal.status === "canceled" ? (
+        <p className="text-red-500 text-xl pt-10 mb-2">Voting is canceled</p>
       ) : userHasVoted ? (
         <p className="text-green-600 text-xl pt-10 mb-2 font-semibold">
           Already voted for this proposal
         </p>
-      ) :  (
+      ) : (
         <VoteForm proposalId={proposalId} />
       )}
-          </div>
+      {session?.user.isAdmin && (
+        <div className="flex gap-4">
+          <Link href={`/proposals/${proposalId}/edit`}>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
+          </Link>
+
+          <form action={handleDelete}>
+            <DeleteContentButton />
+          </form>
+        </div>
+      )}
+    </div>
   );
 }
