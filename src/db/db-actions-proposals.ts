@@ -31,7 +31,6 @@ export async function updateProposal({
     error?: string
 }> {
     try {
-
         await automaticCheckProposals(); // Activate and check for finished proposals before updating
 
         if (!id) {
@@ -57,8 +56,10 @@ export async function updateProposal({
         if (!existingProposal) {
             return { success: false, error: 'Proposal not found' };
         }
-        if (existingProposal.status !== "pending") {
-            return { success: false, error: 'Proposal is not pending' };
+        
+        // Modified validation to allow both pending and canceled proposals to be updated
+        if (existingProposal.status !== "pending" && existingProposal.status !== "canceled") {
+            return { success: false, error: 'Proposal can only be updated when in pending or canceled status' };
         }
 
         const newMessage = await db.update(proposals)
@@ -88,7 +89,6 @@ export async function updateProposal({
         return { success: false, error: "Error creating proposal" };
     }
 }
-
 export async function createProposal({
     title,
     shortdescription,

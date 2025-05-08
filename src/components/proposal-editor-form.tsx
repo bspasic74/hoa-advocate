@@ -25,7 +25,7 @@ import { cn, prepareDatabaseDateForDisplay, prepareDateForDatabase } from "@/lib
 import { useIsClient } from "@/hooks/use-is-client"
 import EditorComponent from "./wyswyg-editor/editor-component"
 import { TimePickerDemo } from "./ui/time-picker-demo"
-import { createProposal, getProposalById, updateProposal } from "@/db/db-actions-proposals"
+import { createProposal, updateProposal } from "@/db/db-actions-proposals"
 import "@/components/wyswyg-editor/index.css"
 import { EditorState } from "lexical"
 import { proposals } from "@/schema"
@@ -39,20 +39,24 @@ const formSchema = z.object({
 })
 
 export function ProposalEditorForm({ initialData }: { initialData?: typeof proposals.$inferSelect }) {
-
-  console.log("proposal initial data: ", initialData);
-  if (initialData?.status != "pending" && initialData?.status != "canceled"){
-    return <>
-    <div>Ne moze</div>
-    </>
-  }
-
   const isClient = useIsClient();
   const editorStateRef = useRef<EditorState | null>(null);
-
-  //const [body, setBody] = useState<string | undefined>(undefined);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  
+  // Check if this is a new proposal or an existing one that can be edited
+  const isNewProposal = !initialData;
+  const canEditProposal = isNewProposal || initialData?.status === "pending" || initialData?.status === "canceled";
+  
+  // If it's an existing proposal that can't be edited, show message and return
+  if (!isNewProposal && !canEditProposal) {
+    return (
+      <div className="p-6 bg-gray-100 rounded-lg text-center">
+        <p className="text-l font-semibold mb-2">Editing Not Available</p>
+        <p>This proposal is either finished or active so editing is not possible.</p>
+      </div>
+    );
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,24 +69,6 @@ export function ProposalEditorForm({ initialData }: { initialData?: typeof propo
     },
   });
 
-  /*
-  useEffect(() => {
-    const fetchProposal = async () => {
-      if (proposalId) {
-        const data = await getProposalById(proposalId)
-        if (data) {
-          form.setValue("title", data.title || "")
-          form.setValue("shortDescription", data.shortdescription || "")
-          form.setValue("startDate", data.startdate ? new Date(data.startdate) : new Date())
-          form.setValue("endDate", data.enddate ? new Date(data.enddate) : new Date())
-          form.setValue("status", data.status || "pending")
-          setBody(data.description ?? undefined);
-        }
-      }
-    }
-    fetchProposal()
-  }, [proposalId])
-*/
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSaving(true)
     setErrorMessage(null)
@@ -126,6 +112,11 @@ export function ProposalEditorForm({ initialData }: { initialData?: typeof propo
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="form-container max-w-max space-y-6">
         {errorMessage && <div className="text-red-500 text-sm mb-4">{errorMessage}</div>}
+        
+        {/* Form header based on whether it's new or edit */}
+        <h2 className="text-xl font-semibold">
+          {isNewProposal ? "Create New Proposal" : "Edit Proposal"}
+        </h2>
 
         <FormField
           control={form.control}
@@ -220,7 +211,8 @@ export function ProposalEditorForm({ initialData }: { initialData?: typeof propo
           </div>
         </div>
 
-        { initialData?.id && (
+        {/* Only show status field for existing editable proposals */}
+        {!isNewProposal && canEditProposal && (
           <FormField
             control={form.control}
             name="status"
@@ -248,7 +240,7 @@ export function ProposalEditorForm({ initialData }: { initialData?: typeof propo
 
         <div className="flex justify-center">
           <Button type="submit" disabled={isSaving} className="button-dark-blue text-white">
-            {isSaving ? "Saving..." : "Submit"}
+            {isSaving ? "Saving..." : isNewProposal ? "Create Proposal" : "Update Proposal"}
           </Button>
         </div>
       </form>
