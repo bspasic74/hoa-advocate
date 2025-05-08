@@ -1,4 +1,3 @@
-
 export const runtime = 'edge';
 
 import { voteForProposal } from '@/db/db-actions-proposals';
@@ -54,6 +53,9 @@ export default async function ProposalPage({ params }: PageProps) {
   const session = await auth();
   const proposalId = parseInt(resolvedParams.proposalId, 10);
 
+  // Check if user is admin
+  const isAdmin = session?.user?.isAdmin || false;
+
   if (isNaN(proposalId)) {
     notFound();
   }
@@ -72,7 +74,8 @@ export default async function ProposalPage({ params }: PageProps) {
 
   let usersWithVotes: UserWithVote[] = [];
 
-  if (proposal.status === "finished") {
+  // Only fetch user votes if proposal is finished AND user is an admin
+  if (proposal.status === "finished" && isAdmin) {
     usersWithVotes = await getUsersWithAddressAndVote(proposalId.toString());
   }
 
@@ -98,52 +101,59 @@ export default async function ProposalPage({ params }: PageProps) {
       </div>
 
       {/* Voting section */}
-      {proposal.status === "finished" ? (<>
-        <VoteResults yesVotes={proposal.votesYesCount ?? 0} totalVotes={proposal.votesCount ?? 0} />
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-4">User Votes</h2>
+      {proposal.status === "finished" ? (
+        <>
+          {/* Vote Results are visible to all users */}
+          <VoteResults yesVotes={proposal.votesYesCount ?? 0} totalVotes={proposal.votesCount ?? 0} />
+          
+          {/* User Votes Table is only visible to admins */}
+          {isAdmin && (
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold mb-4">User Votes</h2>
+              <p className="text-sm text-gray-500 mb-4">This information is only visible to administrators.</p>
 
-          <Table>
-            <TableCaption>A list of users and their votes.</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[50px]">#</TableHead>
-                <TableHead>First Name</TableHead>
-                <TableHead>Last Name</TableHead>
-                <TableHead>Address</TableHead>
-                <TableHead>Vote</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {usersWithVotes.map((user: UserWithVote, index: number) => (
-                <TableRow key={user.id} className="hover:bg-gray-100 transition">
-                  <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell>
-                    <Link href={`/user/${user.id}`} className="text-blue-600 hover:underline">
-                      {user.firstName ?? "-"}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{user.lastName ?? "-"}</TableCell>
-                  <TableCell>
-                    {user.address
-                      ? `${user.address.streetAddress}, ${user.address.city}, ${user.address.state} ${user.address.zipCode}`
-                      : "No Address"}
-                  </TableCell>
-                  <TableCell>
-                    {user.voteValue === true ? (
-                      <span className="text-green-600 font-semibold">Yes</span>
-                    ) : user.voteValue === false ? (
-                      <span className="text-red-600 font-semibold">No</span>
-                    ) : (
-                      <span className="text-gray-500 italic">Not Voted</span>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </>
+              <Table>
+                <TableCaption>A list of users and their votes.</TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[50px]">#</TableHead>
+                    <TableHead>First Name</TableHead>
+                    <TableHead>Last Name</TableHead>
+                    <TableHead>Address</TableHead>
+                    <TableHead>Vote</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {usersWithVotes.map((user: UserWithVote, index: number) => (
+                    <TableRow key={user.id} className="hover:bg-gray-100 transition">
+                      <TableCell className="font-medium">{index + 1}</TableCell>
+                      <TableCell>
+                        <Link href={`/user/${user.id}`} className="text-blue-600 hover:underline">
+                          {user.firstName ?? "-"}
+                        </Link>
+                      </TableCell>
+                      <TableCell>{user.lastName ?? "-"}</TableCell>
+                      <TableCell>
+                        {user.address
+                          ? `${user.address.streetAddress}, ${user.address.city}, ${user.address.state} ${user.address.zipCode}`
+                          : "No Address"}
+                      </TableCell>
+                      <TableCell>
+                        {user.voteValue === true ? (
+                          <span className="text-green-600 font-semibold">Yes</span>
+                        ) : user.voteValue === false ? (
+                          <span className="text-red-600 font-semibold">No</span>
+                        ) : (
+                          <span className="text-gray-500 italic">Not Voted</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+        </>
       ) : proposal.status === "pending" ? (
         <p className="text-gray-500 text-xl pt-10 mb-2">Voting is starting on: {proposal.startdate.toLocaleDateString()}</p>
       ) : proposal.status === "canceled" ? (
@@ -155,7 +165,9 @@ export default async function ProposalPage({ params }: PageProps) {
       ) : (
         <VoteForm proposalId={proposalId} />
       )}
-      {session?.user.isAdmin && (
+      
+      {/* Admin actions */}
+      {session?.user?.isAdmin && (
         <div className="flex gap-4 pt-3">
           <Link href={`/proposals/${proposalId}/edit`}>
             <button className="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
