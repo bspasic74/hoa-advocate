@@ -9,6 +9,7 @@ import { ActivePageProvider } from '@/context/ActivePageContext';
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'react-hot-toast';
 import { Playfair_Display, Oswald } from 'next/font/google'
+import AutoLogout from '@/components/auto-logout';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -41,6 +42,7 @@ export default async function RootLayout({
     <html lang="en" className={`${playfair.variable} ${oswald.variable}`}>
       <body className="flex min-h-screen flex-col font-sans">
       <div className="flex flex-1">
+        <AutoLogout />
         <SessionProvider>
           <SidebarProvider>
           <ActivePageProvider>

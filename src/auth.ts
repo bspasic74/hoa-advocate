@@ -76,6 +76,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			return encoded;
 		},
 	},
+  session: {
+    maxAge: 20 * 60,
+    updateAge: 15 * 60,
+  },
   callbacks: {
     session({ session, user }) {
       session.user.id = user.id;

@@ -13,6 +13,5 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-
   return <div>Welcome, {session.user?.email}</div>;
 }
