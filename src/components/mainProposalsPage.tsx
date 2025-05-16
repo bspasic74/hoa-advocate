@@ -36,9 +36,13 @@ export default function MainProposalsPageClient({
     const itemsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
 
-    const pageCount = Math.ceil(proposals.length / itemsPerPage);
+    const sortedProposals = [...proposals].sort(
+        (a, b) => new Date(b.enddate).getTime() - new Date(a.enddate).getTime()
+    );
+
+    const pageCount = Math.ceil(sortedProposals.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentItems = proposals.slice(startIndex, startIndex + itemsPerPage);
+    const currentItems = sortedProposals.slice(startIndex, startIndex + itemsPerPage);
 
     return (
         <div className="flex flex-1 flex-col gap-4 p-4">
