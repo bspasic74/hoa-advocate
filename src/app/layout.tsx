@@ -42,8 +42,8 @@ export default async function RootLayout({
     <html lang="en" className={`${playfair.variable} ${oswald.variable}`}>
       <body className="flex min-h-screen flex-col font-sans">
       <div className="flex flex-1">
-        <AutoLogout />
-        <SessionProvider>
+        {/*<AutoLogout />*/}
+        <SessionProvider refetchInterval={8*60} refetchOnWindowFocus={true}>
           <SidebarProvider>
           <ActivePageProvider>
               <AppSidebar variant="inset" className='bg-white'/>

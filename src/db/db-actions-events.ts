@@ -38,6 +38,7 @@ export async function createEvent({
 }> {
   try {
     const session = await auth();
+    console.log("Session:", session);
     if (!session || !session.user) {
       console.error("User not authenticated");
       return { success: false, error: "User not authenticated" };
@@ -176,6 +177,6 @@ export async function createEvent({
   export async function getEventsList(count?: number) {
     console.log("Fetching all Events");
     // Fetch all events from the database
-    const eventslist = await db.select().from(events).orderBy(desc(events.createdAt)).limit(count ?? 10);
+    const eventslist = await db.select().from(events).orderBy(desc(events.eventDate)).limit(count ?? 10);
     return eventslist;
   }

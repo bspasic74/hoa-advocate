@@ -184,7 +184,7 @@ export async function updateCommunityMessage(
 export async function getCommunityMessages(count?: number) {
   console.log("Fetching all community messages");
   // Fetch all community messages from the database
-  const messages = await db.select().from(communityMessages).orderBy(desc(communityMessages.createdAt)).limit(count ?? 10);
+  const messages = await db.select().from(communityMessages).orderBy(desc(communityMessages.modifiedAt)).limit(count ?? 10);
   return messages;
 }
 

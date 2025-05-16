@@ -56,7 +56,7 @@ export async function updateProposal({
         if (!existingProposal) {
             return { success: false, error: 'Proposal not found' };
         }
-        
+
         // Modified validation to allow both pending and canceled proposals to be updated
         if (existingProposal.status !== "pending" && existingProposal.status !== "canceled") {
             return { success: false, error: 'Proposal can only be updated when in pending or canceled status' };
@@ -167,7 +167,24 @@ export async function checkForFinishedProposals() {
 
     for (const proposal of finishedProposals) {
 
-        // Get the latest votes for the proposal
+        const counts = await countProposalVotes(proposal.id);
+
+        if (finishedProposals.length > 0) {
+            await db.update(proposals)
+                .set({
+                    status: "finished",
+                    votesCount: counts.total,
+                    votesYesCount: counts.yes
+                })
+                .where(eq(proposals.id, proposal.id))
+        }
+    }
+
+}
+
+async function countProposalVotes(proposalId: number) {
+
+            // Get the latest votes for the proposal
         // This will give you the latest vote for each addressId
         const latestVotes = await db
             .select({
@@ -175,7 +192,7 @@ export async function checkForFinishedProposals() {
                 voteValue: sql<number>`CAST(SUBSTR(GROUP_CONCAT(${votes.voteValue}, ','), 1, 1) AS INTEGER)`.as('voteValue'),
             })
             .from(votes)
-            .where(eq(votes.proposalId, proposal.id.toString()))
+            .where(eq(votes.proposalId, proposalId.toString()))
             .groupBy(votes.addressId)
             .orderBy(desc(votes.createdAt));
 
@@ -195,32 +212,22 @@ export async function checkForFinishedProposals() {
             counts.total++;
         });
 
-
-        if (finishedProposals.length > 0) {
-            await db.update(proposals)
-                .set({ 
-                    status: "finished", 
-                    votesCount: counts.total, 
-                    votesYesCount: counts.yes 
-                })
-                .where(eq(proposals.id, proposal.id))
-        }
-    }
-
+        return counts;
 }
 
-  export async function getProposalsList(count?: number) {
+export async function getProposalsList(count?: number) {
     console.log("Fetching all Prposals");
     // Fetch all events from the database
-    const proposalslist = await db.select().from(proposals).orderBy(desc(proposals.createdAt)).limit(count ?? 10);
+    const proposalslist = await db.select().from(proposals).orderBy(desc(proposals.enddate)).limit(count ?? 10);
     return proposalslist;
-  }
+}
 
 export async function getProposalById(id: number) {
 
     await automaticCheckProposals(); // Activate and check for finished proposals before fetching
 
     const session = await auth();
+    console.log("Session:", session);
     if (!session || !session.user) {
         console.error("User not authenticated");
         return null;
@@ -253,6 +260,12 @@ export async function getProposalById(id: number) {
             }
         }
     });
+
+    if (proposal?.status === "active") {
+        const counts = await countProposalVotes(proposal.id);
+        proposal.votesCount = counts.total;
+        proposal.votesYesCount = counts.yes;
+    }
 
     return proposal || null;
 }
@@ -304,7 +317,8 @@ export async function voteForProposal(proposalId: number, voteValue: boolean) {
 
     //First check if proposal is valid for voting
     const proposal = await db.query.proposals.findFirst({
-        where: eq(proposals.id, proposalId)});
+        where: eq(proposals.id, proposalId)
+    });
     if (!proposal) {
         return { success: false, error: "Proposal not found" };
     }
@@ -331,11 +345,12 @@ export async function voteForProposal(proposalId: number, voteValue: boolean) {
             voteValue,
             addressId: session.user.addressId,
         })
-        .returning()
+        .returning();
 
     revalidatePath(`/proposals/${proposalId}`)
 
-    return { success: true, message: newVote[0] };
+
+    return { success: true, message: newVote[0], };
 }
 
 export async function deleteProposal(id: number) {

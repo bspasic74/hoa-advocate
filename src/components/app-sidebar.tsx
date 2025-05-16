@@ -171,7 +171,7 @@ const adminData = {
     {
       title: "Admin",
       url: "#",
-      icon: ShieldUser, 
+      icon: ShieldUser,
       items: [
         {
           title: "Add Community Message",
@@ -307,12 +307,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             !session?.data?.user
               ? []
               : (session.data?.user.isAdmin ? adminData.navMain : data.navMain).filter(
-                  (item) => item.url !== undefined
-                )
+                (item) => item.url !== undefined
+              )
           }
         />
       </SidebarContent>
-      {session.data?.user && (
+      {/* {session.data?.user && (
         <SidebarFooter>
           <NavUser
             user={{
@@ -322,6 +322,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               avatar: (session.data.user as any)?.avatar ?? "",
             }}
           />
+        </SidebarFooter>
+      )}*/}
+      {session.data?.user && (
+        <SidebarFooter>
+          <button
+            onClick={() => window.location.href = `/user/${session.data.user.id}`}
+            className="flex items-center gap-2 w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition"
+          >
+            {"avatar" in session.data.user && session.data.user.avatar ? (
+              <img
+                src={String(session.data.user.avatar)}
+                alt="avatar"
+                className="w-8 h-8 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600" />
+            )}
+            <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+              {session.data.user.name ?? "User"}
+            </span>
+          </button>
         </SidebarFooter>
       )}
     </Sidebar>

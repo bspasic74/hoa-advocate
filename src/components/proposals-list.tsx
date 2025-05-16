@@ -6,11 +6,11 @@ import Link from 'next/link';
 import { FileEdit } from 'lucide-react';
 
 const ProposalsList = () => {
-    const [proposals, setProposals] = useState<{ title: string; id: number }[]>([]);
+    const [proposals, setProposals] = useState<{ title: string; id: number; shortdescription: string }[]>([]);
 
     useEffect(() => {
         const fetchProposals = async () => {
-            const data = await getProposalsList(5);
+            const data = await getProposalsList(3);
             setProposals(data);
         };
 
@@ -27,8 +27,9 @@ const ProposalsList = () => {
                             className="flex items-center space-x-2 py-2 px-3 hover:bg-muted rounded-md transition-colors"
                         >
                             <FileEdit className="w-4 h-4 text-muted-foreground" />
-                            <span className="fp-card-text text-muted-foreground">{proposal.title}</span>
+                            <span className="fp-card-title">{proposal.title}</span>
                         </Link>
+                        <div className="fp-card-sd"><p>{proposal.shortdescription}</p></div>
                     </li>
                 ))}
             </ul>

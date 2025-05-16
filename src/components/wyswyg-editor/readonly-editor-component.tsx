@@ -10,6 +10,9 @@ import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
 //import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
 import EditorTheme from './themes/EditorTheme';
+import InlineImagePlugin from './plugins/InlineImagePlugin';
+import { ImagePlugin } from './plugins/ImagePlugin';
+import { LayoutPlugin } from './plugins/LayoutPlugin/LayoutPlugin';
 
 interface ReadOnlyEditorProps {
     content: string;
@@ -32,21 +35,30 @@ export default function ReadOnlyEditor({ content, className = '' }: ReadOnlyEdit
 
     return (
         <div className={`read-only-editor ${className}`}>
-            <LexicalComposer initialConfig={initialConfig}>
-                <RichTextPlugin
-                    contentEditable={
-                        <ContentEditable className="WysEditor__contentEditable read-only" />
-                    }
-                    placeholder={null}
-                    ErrorBoundary={LexicalErrorBoundary}
-                />
-                {/* Include only plugins necessary for rendering content */}
-                {/* <ListPlugin /> */}
-                {/* <LinkPlugin /> */}
-                <ClickableLinkPlugin /> {/* Makes links clickable */}
-                {/* <TablePlugin /> */}
-                {/* Include other rendering plugins as needed */}
-            </LexicalComposer>
+            <div className='editor-container'>
+                <LexicalComposer initialConfig={initialConfig}>
+                    <ImagePlugin />
+                    <InlineImagePlugin />
+                    <LayoutPlugin />
+                    <RichTextPlugin
+                        contentEditable={
+                            <div className="editor-scroller">
+                                <div className="editor">
+                                    <ContentEditable className="WysEditor__contentEditable read-only" />
+                                </div>
+                            </div>
+                        }
+                        placeholder={null}
+                        ErrorBoundary={LexicalErrorBoundary}
+                    />
+                    {/* Include only plugins necessary for rendering content */}
+                    {/* <ListPlugin /> */}
+                    {/* <LinkPlugin /> */}
+                    <ClickableLinkPlugin /> {/* Makes links clickable */}
+                    {/* <TablePlugin /> */}
+                    {/* Include other rendering plugins as needed */}
+                </LexicalComposer>
+            </div>
         </div>
     );
 }

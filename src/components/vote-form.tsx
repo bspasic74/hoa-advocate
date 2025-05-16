@@ -28,7 +28,7 @@ export default function VoteForm({ proposalId }: VoteFormProps) {
 
       if (result?.success) {
         toast.success("Vote submitted successfully!");
-        router.refresh();
+        //router.refresh();
       } else {
         toast.error(result?.error || "Error submitting vote.");
       }

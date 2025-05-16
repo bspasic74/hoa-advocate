@@ -59,7 +59,7 @@ export function SectionCards() {
           title: "Proposals & Voting",
           content: <ProposalsList />,
           href: "/proposals",
-          button: "View all Proposals",
+          button: "View All Proposals",
         },
       ].map((card, index) => (
         <motion.div
@@ -69,13 +69,13 @@ export function SectionCards() {
           animate="visible"
           variants={cardVariants}
         >
-          <Card className="fp-card-bg">
+          <Card className="fp-card-bg h-full">
             <CardHeader className="flex items-center gap-2">
               {card.icon}
               <CardTitle className="fp-title-color text-2xl">{card.title}</CardTitle>
             </CardHeader>
             <Separator />
-            <CardContent className="grid gap-4">
+            <CardContent className="grid gap-4 h-full">
               <div>{card.content}</div>
             </CardContent>
             <Separator />

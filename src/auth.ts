@@ -77,8 +77,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 		},
 	},
   session: {
-    maxAge: 20 * 60,
-    updateAge: 15 * 60,
+    maxAge: 10 * 60, // 10 minutes
+    updateAge: 4 * 60, // 4 minutes
   },
   callbacks: {
     session({ session, user }) {

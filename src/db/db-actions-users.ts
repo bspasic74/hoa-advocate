@@ -142,7 +142,6 @@ export async function deleteUser(id: string) {
     }
 
 
-    revalidatePath('/user');
     revalidatePath(`/user/${id}`);
 
     return { 

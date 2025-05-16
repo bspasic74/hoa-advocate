@@ -49,7 +49,6 @@ export default async function AdminUsersPage() {
       </div>
 
       <Table>
-        <TableCaption>A list of all registered users.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[50px]">#</TableHead>
